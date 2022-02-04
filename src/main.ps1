@@ -24,7 +24,7 @@ function Get-HostFilePath{
 }
 
 
-function Write-ProgressHelper {
+function Write-ProgressHelper {   ### NOEXPORT
 
      param (
      [Parameter(Mandatory=$True,Position=0)]
@@ -38,13 +38,13 @@ function Write-ProgressHelper {
 # ==================================
 # Get-HostsValues function
 # ==================================
-function Global:Get-HostsValues{
+function Global:Get-HostsValuesInMemory{
   $Data=Get-Variable -Name HOSTSVALUES -Scope Global -ValueOnly -ErrorAction Ignore
   return $Data
 }
 
 
-function Get-OnlineFile{
+function Get-OnlineFile{   ### NOEXPORT
      param (
      [Parameter(Mandatory=$True,Position=0)]
         [string]$Url,
@@ -158,7 +158,7 @@ function Initialize-WinHostModule{
     }
 }
 
-function Build-HostFileData{
+function Build-HostFileData{    ### NOEXPORT
 <#
     .Synopsis
        Setup the module. Needs to be run only once
@@ -294,8 +294,7 @@ function Update-HostsValues{
     
     $HostsList=(Get-Item "$RegBasePath\*").PSChildName
     $count=$HostsList.Count
-    Write-Verbose "Repair-AllShims: get entries in $RegBasePath* : $count"
-   
+    
     foreach($hst in $HostsList){
         $hurlexists=Test-RegistryValue "$RegBasePath\$hst" 'url'
         $hashexists=Test-RegistryValue "$RegBasePath\$hst" 'hash'
@@ -356,3 +355,107 @@ function Update-HostsValues{
       Write-Host " update completed" -ForegroundColor DarkGray
   }
 }
+
+function List-OnlineResources{
+<#
+    .Synopsis
+       Update 
+#>
+    [CmdletBinding(SupportsShouldProcess)]
+    Param
+    ()
+
+    # throw errors on undefined variables
+    Set-StrictMode -Version 1
+
+    # stop immediately on error
+    $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
+
+  try {
+    $GlobalHostsValues = [System.Collections.ArrayList]::new()
+    $RegBasePath = "$ENV:OrganizationHKCU\Powershell.Module.WindowsHosts"
+    
+    $HostsList=(Get-Item "$RegBasePath\*").PSChildName
+    $count=$HostsList.Count
+    $i = 0
+    foreach($hst in $HostsList){
+        $hurlexists=Test-RegistryValue "$RegBasePath\$hst" 'url'
+        $hashexists=Test-RegistryValue "$RegBasePath\$hst" 'hash'
+        if($hashexists -and $hurlexists){
+            $Url=(Get-ItemProperty "$RegBasePath\$hst").url
+            $Hash=(Get-ItemProperty "$RegBasePath\$hst").hash
+            $Updated=(Get-ItemProperty "$RegBasePath\$hst").updated
+            
+            $res = [PSCustomObject]@{
+                Name        = "$hst"
+                Url         = "$Url"
+                LastUpdate  = "$Updated"
+                Hash        = "$Hash"
+            };
+            $i++
+            $DbgStr = $res | ConvertTo-Json
+            Write-Host -f DarkRed "[res id $i]"
+            Write-Host "$DbgStr" -f DarkYellow
+        }
+    }
+   
+
+  }catch{
+      #Show-ExceptionDetails($_) -ShowStack
+      Write-Host -n -f DarkRed "[!] "
+      Write-Host "$_" -f DarkGray
+  }
+}
+
+function New-OnlineResources{
+<#
+    .Synopsis
+       Update 
+#>
+    [CmdletBinding(SupportsShouldProcess)]
+    Param
+    ()
+
+    # throw errors on undefined variables
+    Set-StrictMode -Version 1
+
+    # stop immediately on error
+    $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
+
+  try {
+        Write-Host -n -f DarkRed "[!] "
+      Write-Host "NOT IMPLEMENTED" -f DarkYellow
+
+  }catch{
+      #Show-ExceptionDetails($_) -ShowStack
+      Write-Host -n -f DarkRed "[!] "
+      Write-Host "$_" -f DarkGray
+  }
+}
+
+function Remove-OnlineResources{
+<#
+    .Synopsis
+       Update 
+#>
+    [CmdletBinding(SupportsShouldProcess)]
+    Param
+    ()
+
+    # throw errors on undefined variables
+    Set-StrictMode -Version 1
+
+    # stop immediately on error
+    $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
+
+  try {
+   
+        Write-Host -n -f DarkRed "[!] "
+      Write-Host "NOT IMPLEMENTED" -f DarkYellow
+  }catch{
+      #Show-ExceptionDetails($_) -ShowStack
+      Write-Host -n -f DarkRed "[!] "
+      Write-Host "$_" -f DarkGray
+  }
+}
+
