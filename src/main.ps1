@@ -407,7 +407,7 @@ function List-OnlineResources{
   }
 }
 
-function New-OnlineResources{
+function New-OnlineResource{
 <#
     .Synopsis
        Update 
@@ -433,7 +433,7 @@ function New-OnlineResources{
   }
 }
 
-function Remove-OnlineResources{
+function Remove-OnlineResource{
 <#
     .Synopsis
        Update 
