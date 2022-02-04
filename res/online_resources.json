@@ -1,0 +1,26 @@
+[
+  {
+    "Name": "someonewhocares",
+    "Url": "https://someonewhocares.org/hosts/hosts",
+    "LastUpdate": "Feb 4, 2022 12:22:38 PM",
+    "Hash": "132"
+  },
+  {
+    "Name": "adservers_hosts",
+    "Url": "https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt",
+    "LastUpdate": "Feb 4, 2022 12:22:38 PM",
+    "Hash": "132"
+  },
+  {
+    "Name": "facebook_hosts",
+    "Url": "https://raw.githubusercontent.com/anudeepND/blacklist/master/facebook.txt",
+    "LastUpdate": "Feb 4, 2022 12:22:38 PM",
+    "Hash": "132"
+  },
+  {
+    "Name": "arsscriptum_hosts",
+    "Url": "https://raw.githubusercontent.com/arsscriptum/PowerShell.Module.WindowsHost/master/blacklist/blacklisted_adservers.txt",
+    "LastUpdate": "Feb 4, 2022 12:22:38 PM",
+    "Hash": "132"
+  }
+]

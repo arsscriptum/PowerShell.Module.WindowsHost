@@ -65,15 +65,15 @@ function Get-OnlineFile{
     $targetStream = New-Object -TypeName System.IO.FileStream -ArgumentList $Path, Create
     $buffer = new-object byte[] 10KB
     $count = $responseStream.Read($buffer,0,$buffer.length)
-    $stepCounter = 0
+    $Script:stepCounter = 0
     $downloadedBytes = $count
     $script:steps = $totalLength
     while ($count -gt 0){
        $targetStream.Write($buffer, 0, $count)
        $count = $responseStream.Read($buffer,0,$buffer.length)
        $downloadedBytes = $downloadedBytes + $count
-       $stepCounter = $([System.Math]::Floor($downloadedBytes/1024))
-       Write-ProgressHelper -Message "Downloaded $stepCounter K of $Script:Steps K" -StepNumber ($stepCounter++)
+       $Script:stepCounter = $([System.Math]::Floor($downloadedBytes/1024))
+       Write-ProgressHelper -Message "Downloaded $Script:stepCounter K of $Script:Steps K" -StepNumber ($Script:stepCounter++)
        #Write-Progress -activity "Downloading file '$($url.split('/') | Select -Last 1)'" -status  -PercentComplete ((([System.Math]::Floor($downloadedBytes/1024)) / $totalLength)  * 100)
     }
 
@@ -197,7 +197,7 @@ function Build-HostFileData{
         Write-Host "Parsing " -f Gray -NoNewLine
         Write-Host "$Path" -f Cyan
         $Script:ProgressTitle = 'STATE: PARSING'
-        $stepCounter = 0
+        $Script:stepCounter = 0
         #define a regex to return first NON-whitespace character
         [regex]$r="\S"
         #strip out any lines beginning with # and blank lines
@@ -246,7 +246,7 @@ function Build-HostFileData{
                    $null=$LocalHostsValues.Add($obj)
                    #$ip = '0.0.0.0'
 
-                   Write-ProgressHelper -Message "Parsing HOSTS file... ($stepCounter / $Script:Steps)" -StepNumber ($stepCounter++)
+                   Write-ProgressHelper -Message "Parsing HOSTS file... ($Script:stepCounter / $Script:Steps)" -StepNumber ($Script:stepCounter++)
                    #$formatstring = "{0}`t{1}`t# {2}"
                    #$fields = $ip,$hostname, $comment
                    #$entry=($formatstring -f $fields)
@@ -335,8 +335,9 @@ function Update-HostsValues{
             Sleep 1
         }
     }
+    $Script:stepCounter = 0
     $Script:ProgressTitle = 'STATE: SORTING'
-    Write-ProgressHelper -Message "Sorting all entries..." -StepNumber ($stepCounter++)
+    Write-ProgressHelper -Message "Sorting all entries..." -StepNumber ($Script:stepCounter++)
     $GlobalHostsValues = ($GlobalHostsValues | Sort-Object -Property "SubDomain" -Descending -Unique)
     Write-Progress -Activity $Script:ProgressTitle -Completed
     Write-Host "[i] " -f DarkGreen -NoNewLine
