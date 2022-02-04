@@ -1,0 +1,7 @@
+# List of blacklisted HOSTS that are added by Guillaume Plante <guillaumeplante.qc@gmail.com>
+# and part of the arsscriptum set. github.com/arsscriptum
+# Homepage: https://github.com/arsscriptum/Windows.HOSTS/blacklist
+# Last Update: Friday, February 4, 2022 10:45:38
+# ===================================================================
+0.0.0.0 deployads.net
+0.0.0.0 deployads.com
