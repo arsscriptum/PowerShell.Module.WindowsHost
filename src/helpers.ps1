@@ -189,7 +189,8 @@ function New-HostFile {  ### NOEXPORT
         [Parameter(Mandatory=$True,Position=0)]
         [string]$Path
     )  
-    $HostValues = Get-HostsValuesInMemory
+    $HostValues = Get-HostsValuesInMemory|Sort-Object -Property Domain,Hostname -Descending
+   
     $hostsLen = $HostValues.Count
     $Script:Steps= $HostValues.Count
     $Script:stepCounter=0
@@ -199,7 +200,7 @@ function New-HostFile {  ### NOEXPORT
     
     Write-MMsg "Preparing $hostsLen entries." -h
     $Script:AllEntries = [System.Collections.ArrayList]::new()
-    $CurrentDomain = ''
+    $LastDomain = ''
     $Total = 0
     ForEach($val in $HostValues){
       $Total++
@@ -227,11 +228,18 @@ function New-HostFile {  ### NOEXPORT
           $entry=($formatstring -f $fields)
           $null=$Script:AllEntries.Add($entry)
         }else{
-          $formatstring = "{0}`t`t{1}`t# {2}"
-          $fields = $ip,$hostname, $comment  
-          $entry=($formatstring -f $fields)
-          $null=$Script:AllEntries.Add($entry)
-          #Write-Verbose "$entry"
+            if($Domain -ne $LastDomain){
+                $LastDomain=$Domain
+                $formatstring = "{0}`t`t{1}`t# {2}"
+                $fields = $ip,$hostname, $comment  
+                $entry=($formatstring -f $fields)
+                $null=$Script:AllEntries.Add($entry)
+            }else{
+                $formatstring = "{0}`t`t{1}`t# +"
+                $fields = $ip,$hostname
+                $entry=($formatstring -f $fields)
+                $null=$Script:AllEntries.Add($entry)
+            }
         }
   
         Write-ProgressHelper -Message "preparing entries... ($Script:stepCounter / $Script:Steps)" -StepNumber ($Script:stepCounter++)
