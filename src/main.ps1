@@ -51,7 +51,7 @@ function Build-HostFileData{    ### NOEXPORT
     )
 
  try{
-        
+        Write-MMsg "Reading content..."
         $HostsData=Get-Content -Path $Path
         $HostsDataLines=(Get-Content -Path $Path | Measure-Object –Line).Lines
         $HostsDataSize=(Get-Content -Path $Path | Measure-Object -Property length -Sum).Sum
@@ -62,8 +62,8 @@ function Build-HostFileData{    ### NOEXPORT
           return;
         }
         $LocalHostsValues = [System.Collections.ArrayList]::new()
-        Write-Host "Parsing " -f Gray -NoNewLine
-        Write-Host "$Path" -f Cyan
+        Write-verbose "Parsing $Path"
+        
         $Script:ProgressTitle = 'STATE: PARSING'
         $Script:stepCounter = 0
         #define a regex to return first NON-whitespace character
@@ -125,9 +125,9 @@ function Build-HostFileData{    ### NOEXPORT
         
       }
       catch{
-          Show-ExceptionDetails($_) -ShowStack
-          return $false
-        }
+        Show-ExceptionDetails $_ -ShowStack
+        return $false
+      }
       finally{
         $LocalHostsValuesCount = $LocalHostsValues.Count
         
@@ -165,33 +165,43 @@ function Update-HostsValues{
     $count=$HostsList.Count
     
     foreach($hst in $HostsList){
+
         $hurlexists=Test-RegistryValue "$RegBasePath\$hst" 'url'
         $hashexists=Test-RegistryValue "$RegBasePath\$hst" 'hash'
         if($hashexists -and $hurlexists){
             $Url=(Get-ItemProperty "$RegBasePath\$hst").url
             $Hash=(Get-ItemProperty "$RegBasePath\$hst").hash
 
+            Write-MMsg "Check [$Url]..."
             # PARSE, etc...
             $DateStr = (Get-Date).GetDateTimeFormats()[12]
             $FileHash=$Hash
 
+            
             $TmpFilePath = (New-TemporaryFile).fullname
 
+            Write-verbose "Download $Url to $TmpFilePath"
             $Downloaded = Get-OnlineFile $Url $TmpFilePath
-        
+            if($Downloaded -eq $False){
+                Write-MError "Download Error ($Url)"
+                return
+            }
             $DownloadedHash=(Get-FileHash $TmpFilePath).Hash
 
             if($FileHash -ne $DownloadedHash){
                 $ShouldUpdateFile = $True
-                Write-MWarn "$FileHash vs $DownloadedHash"
+                Write-verbose "$FileHash vs $DownloadedHash"
                 Write-MWarn "DIFFERENT HASHES - PARSING" -h
 
                 $null=Set-RegistryValue "$RegBasePath\$hst" "last_update" "$DateStr" 
-                Write-MOk "powershell.module.windowshosts\$hst last_update $DateStr" 
+                Write-verbose "powershell.module.windowshosts\$hst last_update $DateStr" 
                 $null=Set-RegistryValue "$RegBasePath\$hst" "hash" "$DownloadedHash" 
-                Write-MOk "powershell.module.windowshosts\$hst hash $DownloadedHash" 
-
-                $Data = Build-HostFileData -Path $TmpFilePath -OverrideIPAddress "0.0.0.0"
+                Write-verbose "powershell.module.windowshosts\$hst hash $DownloadedHash" 
+                $TmpFileCopyPath = $TmpFilePath + '.copy'
+                Write-verbose "Copy $TmpFilePath to $TmpFileCopyPath"
+                Copy-Item $TmpFilePath $TmpFileCopyPath
+                Write-verbose "GO Build-HostFileData -Path $TmpFileCopyPath" 
+                $Data = Build-HostFileData -Path $TmpFileCopyPath -OverrideIPAddress "0.0.0.0"
                 $GlobalHostsValues += $Data
                 $GlobalHostsValuesCount = $GlobalHostsValues.Count
                 Set-Variable -Name HOSTSVALUES -Scope Global -Option allscope -Value $GlobalHostsValues
@@ -214,14 +224,15 @@ function Update-HostsValues{
         Write-Progress -Activity $Script:ProgressTitle -Completed
        
         Write-MMsg "Values are sorted, made unique."
-        Write-MMsg "Starting to dump values to '$HostFilePath'"
+        Write-verbose "Starting to dump values to '$HostFilePath'"
         New-HostFile $HostFilePath
     }
 
 
   }catch{
-       #Show-ExceptionDetails($_) -ShowStack
-        Write-MError "$_" 
+        Show-ExceptionDetails $_ -ShowStack
+        Write-MError "Fatal Error"
+        return
   }finally{
       Write-MMsg "update completed"
   }
@@ -278,9 +289,7 @@ function List-WinHostUrls{
    
 
   }catch{
-      #Show-ExceptionDetails($_) -ShowStack
-      
-      Write-MError "$_" 
+    Show-ExceptionDetails $_ -ShowStack
   }
 }
 
@@ -313,7 +322,7 @@ function New-WinHostResource{
     $WebClient.DownloadFile($Url,$TmpFilePath)
     $Size = (Get-Item -Path $TmpFilePath).Length
     if($Size -gt 0){
-        Write-MOk "file size $Size bytes" 
+        Write-verbose "file size $Size bytes" 
         [DateTime]$CurrDate=(Get-Date)
 
         #$FileHash=Get-FileHash $TmpFilePath
@@ -325,13 +334,13 @@ function New-WinHostResource{
         
         $null=New-Item -Path "$RegBasePath\$Name" -ItemType Directory -ErrorAction Ignore -Force
         $null=New-RegistryValue "$RegBasePath\$Name" "url" "$Url" "string"
-        Write-MOk "powershell.module.windowshosts\$Name url $Url" 
+        Write-verbose "powershell.module.windowshosts\$Name url $Url" 
         $null=New-RegistryValue "$RegBasePath\$Name" "last_update" "never" "string"
-        Write-MOk "powershell.module.windowshosts\$Name last_update never" 
+        Write-verbose "powershell.module.windowshosts\$Name last_update never" 
         $null=New-RegistryValue "$RegBasePath\$Name" "hash" "$FileHash" "string"
-        Write-MOk "powershell.module.windowshosts\$Name hash $FileHash" 
+        Write-verbose "powershell.module.windowshosts\$Name hash $FileHash" 
         $null=New-RegistryValue "$RegBasePath\$Name" "added_on" "$DateStr" "string"
-        Write-MOk "powershell.module.windowshosts\$Name added_on $DateStr" 
+        Write-MOk "Added: $Name $Url" 
         List-WinHostUrls
     }else{
         Write-MError "Invalid file"
@@ -339,8 +348,7 @@ function New-WinHostResource{
     }
 
   }catch{
-      #Show-ExceptionDetails($_) -ShowStack
-      Write-MError "$_" 
+    Show-ExceptionDetails $_ -ShowStack
   }
 }
 
@@ -360,12 +368,10 @@ function Remove-WinHostResource{
     $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
 
   try {
-   
-        Write-Host -n -f DarkRed "[!] "
-      Write-Host "NOT IMPLEMENTED" -f DarkYellow
+    Write-Host -n -f DarkRed "[!] "
+    Write-Host "NOT IMPLEMENTED" -f DarkYellow
   }catch{
-      #Show-ExceptionDetails($_) -ShowStack
-      Write-MError "$_" 
+    Show-ExceptionDetails $_ -ShowStack
   }
 }
 

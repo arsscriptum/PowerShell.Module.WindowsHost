@@ -3,11 +3,16 @@
   ║   PowerShell.Module.WindowsHosts
   ║   𝑊𝑖𝑛𝑑𝑜𝑤𝑠 𝐻𝑂𝑆𝑇𝑆 𝑓𝑖𝑙𝑒 𝑚𝑎𝑛𝑎𝑔𝑒𝑚𝑒𝑛𝑡              
   ║   
-  ║   online_host_url.ps1: Predefined Online Resources for Hosts
+  ║   Acknowledgements.ps1: Predefined Acknowledgements entries
   ╙──────────────────────────────────────────────────────────────────────────────────────
  #>
 
-$Script:acknowledgements = @'
+function Get-Acknowledgements {  ### NOEXPORT
+    [CmdletBinding(SupportsShouldProcess)]
+    Param()  
+
+    
+    $acknowledgements = @'
 
 # Acknowledgements
 # I'd like to thank the following people for submitting sites, and
@@ -54,3 +59,6 @@ $Script:acknowledgements = @'
 
 
 '@
+
+    return $acknowledgements
+}

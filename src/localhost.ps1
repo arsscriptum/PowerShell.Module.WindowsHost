@@ -3,11 +3,17 @@
   ║   PowerShell.Module.WindowsHosts
   ║   𝑊𝑖𝑛𝑑𝑜𝑤𝑠 𝐻𝑂𝑆𝑇𝑆 𝑓𝑖𝑙𝑒 𝑚𝑎𝑛𝑎𝑔𝑒𝑚𝑒𝑛𝑡              
   ║   
-  ║   online_host_url.ps1: Predefined Online Resources for Hosts
+  ║   localhost.ps1: Predefined local entries
   ╙──────────────────────────────────────────────────────────────────────────────────────
  #>
 
-$Script:localhost = @'
+
+
+function Get-LocalHostEntries {  ### NOEXPORT
+    [CmdletBinding(SupportsShouldProcess)]
+    Param()  
+
+    $localhost = @'
 
 # <localhost>
 
@@ -28,3 +34,6 @@ ff02::3         ip6-allhosts
 # </localhost>
 
 '@
+
+    return $localhost
+}

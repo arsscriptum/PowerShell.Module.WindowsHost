@@ -99,28 +99,23 @@ function Write-MError{                # NOEXPORT
 }
 
 
-function Write-MException{                # NOEXPORT                 
-    [CmdletBinding(SupportsShouldProcess)]
-    param(
-        [Parameter(Mandatory=$true)]
-        [System.Management.Automation.ErrorRecord]$Record
-    )
-    $formatstring = "{0}`n{1}"
-    $fields = $Record.FullyQualifiedErrorId,$Record.Exception.ToString()
-    $ExceptMsg=($formatstring -f $fields)
-    Write-Host "❗ $ExceptMsg" -f DarkYellow
-}
-
-
 function Write-ProgressHelper {   ### NOEXPORT
 
-     param (
-     [Parameter(Mandatory=$True,Position=0)]
+    param (
+    [Parameter(Mandatory=$True,Position=0)]
         [int]$StepNumber,
         [Parameter(Mandatory=$True,Position=1)]
         [string]$Message
     ) 
-    Write-Progress -Activity $Script:ProgressTitle -Status $Message -PercentComplete (($StepNumber / $Script:Steps) * 100)
+    try{
+        Write-Progress -Activity $Script:ProgressTitle -Status $Message -PercentComplete (($StepNumber / $Script:Steps) * 100)
+    }catch{
+        Write-Host "❗ StepNumber $StepNumber" -f DarkYellow
+        Write-Host "❗ ScriptSteps $Script:Steps" -f DarkYellow
+        $val = (($StepNumber / $Script:Steps) * 100)
+        Write-Host "❗ PercentComplete $val" -f DarkYellow
+        Show-ExceptionDetails $_ -ShowStack
+    }
 }
 
 # ==================================
@@ -149,20 +144,22 @@ function Get-OnlineFile{   ### NOEXPORT
     $request.set_Timeout(15000) #15 second timeout
     $response = $request.GetResponse()
     $totalLength = [System.Math]::Floor($response.get_ContentLength()/1024)
+    $totalLengthBytes = [System.Math]::Floor($response.get_ContentLength())
     $responseStream = $response.GetResponseStream()
     $targetStream = New-Object -TypeName System.IO.FileStream -ArgumentList $Path, Create
     $buffer = new-object byte[] 10KB
     $count = $responseStream.Read($buffer,0,$buffer.length)
-    $Script:stepCounter = 0
+    $dlkb = 0
     $downloadedBytes = $count
     $script:steps = $totalLength
     while ($count -gt 0){
        $targetStream.Write($buffer, 0, $count)
        $count = $responseStream.Read($buffer,0,$buffer.length)
        $downloadedBytes = $downloadedBytes + $count
-       $Script:stepCounter = $([System.Math]::Floor($downloadedBytes/1024))
-       Write-ProgressHelper -Message "Downloaded $Script:stepCounter K of $Script:Steps K" -StepNumber ($Script:stepCounter++)
-       #Write-Progress -activity "Downloading file '$($url.split('/') | Select -Last 1)'" -status  -PercentComplete ((([System.Math]::Floor($downloadedBytes/1024)) / $totalLength)  * 100)
+       $dlkb = $([System.Math]::Floor($downloadedBytes/1024))
+       $msg = "Downloaded $dlkb Kb of $totalLength Kb"
+       $perc = (($downloadedBytes / $totalLengthBytes)*100)
+       Write-Progress -Activity $Script:ProgressTitle -Status $msg -PercentComplete $perc
     }
 
     $targetStream.Flush()
@@ -170,13 +167,12 @@ function Get-OnlineFile{   ### NOEXPORT
     $targetStream.Dispose()
     $responseStream.Dispose()
   }catch{
-      
-      Write-MError "$_" 
+    Show-ExceptionDetails $_ -ShowStack
     return $false
   }finally{
     Write-Progress -Activity $Script:ProgressTitle -Completed
     
-    Write-MMsg "Downloaded $Url" -h
+    Write-verbose "Downloaded $Url"
   }
   return $true
 }
@@ -189,11 +185,12 @@ function New-HostFile {  ### NOEXPORT
         [Parameter(Mandatory=$True,Position=0)]
         [string]$Path
     )  
+  try{    
     $HostValues = Get-HostsValuesInMemory|Sort-Object -Property Domain,Hostname -Descending
    
     $hostsLen = $HostValues.Count
     $Script:Steps= $HostValues.Count
-    $Script:stepCounter=0
+    $stepCounter=0
 
     $Script:ProgressTitle = "Preparing $hostsLen entries."
    
@@ -242,7 +239,7 @@ function New-HostFile {  ### NOEXPORT
             }
         }
   
-        Write-ProgressHelper -Message "preparing entries... ($Script:stepCounter / $Script:Steps)" -StepNumber ($Script:stepCounter++)
+        Write-ProgressHelper -Message "preparing entries... ($stepCounter / $Script:Steps)" -StepNumber ($stepCounter++)
     }
 
     Set-Variable -Name HOSTS_ENTRIES -Scope Global -Option allscope -Value $Script:AllEntries
@@ -250,16 +247,29 @@ function New-HostFile {  ### NOEXPORT
     Write-MMsg "Updated Global Variable HOSTS_ENTRIES. Use 'Get-HostsValuesInMemory' to retrieve them in memory" -h  
  
     Write-Progress -Activity $Script:ProgressTitle -Completed
-    Write-MOk "Deleting $Path" -h
+    
     $null = Remove-Item -Path $Path -Force  -ErrorAction Ignore
-    Write-MOk "Creating $Path" -h
+    
     $null = New-Item -Path $Path -ItemType File -Force
     Write-MOk "Writing to $Path" -h
 
-    Set-Content -Path $Path -Value $Script:localhost -ErrorAction Stop
-    Add-Content -Path $Path -Value $Script:custom_entries -ErrorAction Stop
+    $lcl = Get-LocalHostEntries
+    $cet = Get-CustomEntries
+    $ack = Get-Acknowledgements
+    Set-Content -Path $Path -Value $lcl -ErrorAction Stop
+    Write-MMsg "Writing Local Host Entries..."
+    Add-Content -Path $Path -Value $cet -ErrorAction Stop
+    Write-MMsg "Custom Entries..."
     Add-Content -Path $Path -Value $Script:AllEntries -ErrorAction Stop
-    Add-Content -Path $Path -Value $Script:acknowledgements -ErrorAction Stop
-
+    Write-MMsg "Online Entries..."
+    Add-Content -Path $Path -Value $ack -ErrorAction Stop
+    Write-MMsg "Acknowledgements..."
     Write-MOk "Done"
+  }catch{
+    Show-ExceptionDetails $_ -ShowStack
+    return 
+  }finally{
+    Write-Progress -Activity $Script:ProgressTitle -Completed
+  }
+  return    
 }
