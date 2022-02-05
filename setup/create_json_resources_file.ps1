@@ -12,7 +12,9 @@
     Param
     (
         [Parameter(Mandatory = $false)]
-        [String]$Path
+        [String]$Path,
+        [Parameter(Mandatory = $false)]
+        [switch]$Test
     )    
 <#
     .Synopsis
@@ -24,56 +26,44 @@
             $ModulePath = (Resolve-Path "$PSScriptRoot\..").Path
             $ResPath = Join-Path $ModulePath 'res'
             $Path = Join-Path $ResPath 'online_resources.json'
+            if($Test){
+                $Path = Join-Path $ResPath 'online_resources_test.json'
+            }
             New-Item -Path $ResPath -ItemType Directory -ErrorAction Ignore -Force| Out-Null
             Write-output "Generating $Path"
         }
+
         $InitDateStr = (Get-Date).GetDateTimeFormats()[12]
         $HostsFileResources = [System.Collections.ArrayList]::new()
-        $hosts_source='https://someonewhocares.org/hosts/hosts'
-        $adservers_hosts='https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt'
-        $facebook_hosts='https://raw.githubusercontent.com/anudeepND/blacklist/master/facebook.txt'
-        $arsscriptum_hosts='https://raw.githubusercontent.com/arsscriptum/PowerShell.Module.WindowsHost/master/blacklist/blacklisted_adservers.txt'
-        $res = [PSCustomObject]@{
-                        Name        = 'someonewhocares'
-                        Url         = $hosts_source
-                        LastUpdate  = 'never'
-                        Hash        = '0'
-                        AddedOn     = "$InitDateStr"
-                    };
-        $HostsFileResources.Add($res) | Out-Null
-        $DbgStr = $res | ConvertTo-Json
-        Write-output "adding $hosts_source"
-        $res = [PSCustomObject]@{
-                        Name        = 'adservers_hosts'
-                        Url         = $adservers_hosts
-                        LastUpdate  = 'never'
-                        Hash        = '0'
-                        AddedOn     = "$InitDateStr"
-                    }
-        $HostsFileResources.Add($res) | Out-Null
-        $DbgStr = $res | ConvertTo-Json
-        Write-output "adding $adservers_hosts"
-        $res = [PSCustomObject]@{
-                        Name        = 'facebook_hosts'
-                        Url         = $facebook_hosts
-                        LastUpdate  = 'never'
-                        Hash        = '0'
-                        AddedOn     = "$InitDateStr"
-                    }
-        $HostsFileResources.Add($res) | Out-Null
-        $DbgStr = $res | ConvertTo-Json
-        Write-output "adding $facebook_hosts"
+        $FileUrls = [System.Collections.ArrayList]::new()
+        if($Test){
+            $FileUrls.Add('https://raw.githubusercontent.com/arsscriptum/PowerShell.Module.WindowsHost/master/tests/test_01.txt')
+            #$FileUrls.Add('https://raw.githubusercontent.com/arsscriptum/PowerShell.Module.WindowsHost/master/tests/test_02.txt')
+        }else{
+            $FileUrls.Add('https://someonewhocares.org/hosts/hosts')
+            $FileUrls.Add('https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt')
+            $FileUrls.Add('https://raw.githubusercontent.com/anudeepND/blacklist/master/facebook.txt')
+            $FileUrls.Add('https://raw.githubusercontent.com/arsscriptum/PowerShell.Module.WindowsHost/master/blacklist/blacklisted_adservers.txt')
+        }
 
-        $res = [PSCustomObject]@{
-                        Name        = 'arsscriptum_hosts'
-                        Url         = $arsscriptum_hosts
-                        LastUpdate  = 'never'
-                        Hash        = '0'
-                        AddedOn     = "$InitDateStr"
-                    }
-        $HostsFileResources.Add($res) | Out-Null
-        $DbgStr = $res | ConvertTo-Json
-        Write-output "adding $arsscriptum_hosts"
+        $InitDateStr = (Get-Date).GetDateTimeFormats()[12]
+        $HostsFileResources = [System.Collections.ArrayList]::new()
+        ForEach($u in $FileUrls){
+            [Uri]$MyUri =  $u
+            $name = $MyUri.Host
+            $i = $u.LastIndexOf('/')+1
+            $name += '_'
+            $name += $u.Substring($i)
+            $res = [PSCustomObject]@{
+                Name        = "$name"
+                Url         = "$u"
+                LastUpdate  = 'never'
+                Hash        = '0'
+                AddedOn     = "$InitDateStr"
+            };            
+            $HostsFileResources.Add($res) | Out-Null
+            Write-output "Added $name ($u)"
+        }
 
         $JsonResources = $HostsFileResources | ConvertTo-Json
         Set-Content -Path $Path -Value $JsonResources
