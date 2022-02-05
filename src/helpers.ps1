@@ -11,6 +11,107 @@
  #Requires -Version 7.0
 
 
+#===============================================================================
+# ChannelProperties
+#===============================================================================
+
+class ChannelProperties
+{
+    #ChannelProperties
+    [string]$Channel = 'WindowsHosts'
+    [ConsoleColor]$TitleColor = 'Blue'
+    [ConsoleColor]$NormalTextColor = 'DarkGray'
+    [ConsoleColor]$InfoColor = 'DarkCyan'
+    [ConsoleColor]$WarnColor = 'DarkYellow'
+    [ConsoleColor]$ErrorColor = 'DarkRed'
+    [ConsoleColor]$SuccessColor = 'DarkGreen'
+    [ConsoleColor]$ErrorDescriptionColor = 'DarkYellow'
+}
+$Script:ChannelProps = [ChannelProperties]::new()
+
+
+function Write-MMsg{               # NOEXPORT   
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [Parameter(Mandatory=$true,Position=0)]
+        [string]$Message,
+        [Parameter(Mandatory=$false,Position=1)]
+        [Alias('h','y')]
+        [switch]$Highlight
+    )
+    if($Highlight){
+        Write-Host "⚡ $Message"
+    }else{
+        Write-Host "⚡ $Message" -f DarkGray
+    }
+}
+
+
+function Write-MOk{                        # NOEXPORT        
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [Parameter(Mandatory=$true,Position=0)]
+        [string]$Message,
+        [Parameter(Mandatory=$false,Position=1)]
+        [Alias('h','y')]
+        [switch]$Highlight
+    )
+    
+    if($Highlight){
+        Write-Host "✅ $Message"
+    }else{
+        Write-Host "✅ $Message" -f DarkGray
+    }
+}
+
+function Write-MWarn{                # NOEXPORT                 
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [Parameter(Mandatory=$true,Position=0)]
+        [string]$Message,
+        [Parameter(Mandatory=$false,Position=1)]
+        [Alias('h','y')]
+        [switch]$Highlight
+    )
+    if($Highlight){
+        Write-Host "❗ $Message" -f DarkYellow
+    }else{
+        Write-Host "❗ $Message" -f DarkGray
+    }
+    
+}
+
+function Write-MError{                # NOEXPORT                 
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [Parameter(Mandatory=$true,Position=0)]
+        [string]$Message,
+        [Parameter(Mandatory=$false,Position=1)]
+        [Alias('h','y')]
+        [switch]$Highlight
+    )
+    if($Highlight){
+        Write-Host "❗ $Message" -f DarkYellow
+    }else{
+        Write-Host "❗ $Message" -f DarkGray
+    }
+    
+}
+
+
+function Write-MException{                # NOEXPORT                 
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [Parameter(Mandatory=$true)]
+        [System.Management.Automation.ErrorRecord]$Record
+    )
+    $formatstring = "{0}`n{1}"
+    $fields = $Record.FullyQualifiedErrorId,$Record.Exception.ToString()
+    $ExceptMsg=($formatstring -f $fields)
+    Write-Host "❗ $ExceptMsg" -f DarkYellow
+}
+
+
 function Write-ProgressHelper {   ### NOEXPORT
 
      param (
@@ -69,13 +170,13 @@ function Get-OnlineFile{   ### NOEXPORT
     $targetStream.Dispose()
     $responseStream.Dispose()
   }catch{
-      Write-Host -ForegroundColor DarkRed "[!] " -NoNewline
-      Write-Host "$_" -ForegroundColor DarkGray
+      
+      Write-MError "$_" 
     return $false
   }finally{
     Write-Progress -Activity $Script:ProgressTitle -Completed
-    Write-Host "[i] " -f DarkGreen -NoNewLine
-    Write-Host "Downloaded $Url" -f Gray
+    
+    Write-MMsg "Downloaded $Url" -h
   }
   return $true
 }
@@ -88,16 +189,16 @@ function New-HostFile {  ### NOEXPORT
         [Parameter(Mandatory=$True,Position=0)]
         [string]$Path
     )  
-    $HostValues = Get-HostsValues
+    $HostValues = Get-HostsValuesInMemory
     $hostsLen = $HostValues.Count
     $Script:Steps= $HostValues.Count
-    $stepCounter=0
+    $Script:stepCounter=0
 
     $Script:ProgressTitle = "Preparing $hostsLen entries."
    
-    Write-Host "[WAIT] " -f Red -NoNewLine
-    Write-Host "Preparing $hostsLen entries." -f DarkYellow      
-    $AllEntries = [System.Collections.ArrayList]::new()
+    
+    Write-MMsg "Preparing $hostsLen entries." -h
+    $Script:AllEntries = [System.Collections.ArrayList]::new()
     $CurrentDomain = ''
     $Total = 0
     ForEach($val in $HostValues){
@@ -112,7 +213,6 @@ function New-HostFile {  ### NOEXPORT
                 $Hostname += ' '
             }
         } 
-
         $Comment = $val.Comment
         $TopLevelDomain = $val.TopLevelDomain
         $Domain = $val.Domain
@@ -122,53 +222,36 @@ function New-HostFile {  ### NOEXPORT
             $Comment = 'Domain ' + $Domain 
         }
         if($Domain -eq ''){
-          <#if($CurrentDomain -ne ''){
-              $tagstr = "# </$CurrentDomain>`n"
-              $null=$AllEntries.Add($tagstr)
-              #Write-Verbose "$tagstr"
-            }
-            $CurrentDomain = $Domain
-          #>
           $formatstring = "{0}`t`t{1}"
           $fields = $ip,$hostname  
           $entry=($formatstring -f $fields)
-          $null=$AllEntries.Add($entry)
-          #Write-Verbose "$entry"
+          $null=$Script:AllEntries.Add($entry)
         }else{
-          <#if($CurrentDomain -ne $Domain){
-            if($CurrentDomain -ne ''){
-              $tagstr = "# </$CurrentDomain>`n# <$Domain>"
-              $null=$AllEntries.Add($tagstr)
-              #Write-Verbose "$tagstr"
-            }
-            $CurrentDomain = $Domain
-          }#>
           $formatstring = "{0}`t`t{1}`t# {2}"
           $fields = $ip,$hostname, $comment  
           $entry=($formatstring -f $fields)
-          $null=$AllEntries.Add($entry)
+          $null=$Script:AllEntries.Add($entry)
           #Write-Verbose "$entry"
         }
   
-        Write-ProgressHelper -Message "preparing entries... ($stepCounter / $Script:Steps)" -StepNumber ($stepCounter++)
+        Write-ProgressHelper -Message "preparing entries... ($Script:stepCounter / $Script:Steps)" -StepNumber ($Script:stepCounter++)
     }
 
-    Set-Variable -Name HOSTS_ENTRIES -Scope Global -Option allscope -Value $AllEntries
-    Write-Host "[OK]`t" -f DarkGreen -NoNewLine
-    Write-Host "Updated Global Variable HOSTS_ENTRIES" -f DarkGray  
-
+    Set-Variable -Name HOSTS_ENTRIES -Scope Global -Option allscope -Value $Script:AllEntries
+    
+    Write-MMsg "Updated Global Variable HOSTS_ENTRIES. Use 'Get-HostsValuesInMemory' to retrieve them in memory" -h  
+ 
     Write-Progress -Activity $Script:ProgressTitle -Completed
-    Write-Host "Deleting $Path" -f DarkYellow
+    Write-MOk "Deleting $Path" -h
     $null = Remove-Item -Path $Path -Force  -ErrorAction Ignore
-    Write-Host "Creating $Path" -f DarkYellow
+    Write-MOk "Creating $Path" -h
     $null = New-Item -Path $Path -ItemType File -Force
-    Write-Host "Writing to $Path" -f DarkYellow
+    Write-MOk "Writing to $Path" -h
 
+    Set-Content -Path $Path -Value $Script:localhost -ErrorAction Stop
+    Add-Content -Path $Path -Value $Script:custom_entries -ErrorAction Stop
+    Add-Content -Path $Path -Value $Script:AllEntries -ErrorAction Stop
+    Add-Content -Path $Path -Value $Script:acknowledgements -ErrorAction Stop
 
-    Set-Content -Path $Path -Value $localhost -ErrorAction Stop
-    Add-Content -Path $Path -Value $custom_entries -ErrorAction Stop
-    Add-Content -Path $Path -Value $AllEntries -ErrorAction Stop
-    Add-Content -Path $Path -Value $acknowledgements -ErrorAction Stop
-
-    Write-Host "Done" -f DarkGreen
+    Write-MOk "Done"
 }

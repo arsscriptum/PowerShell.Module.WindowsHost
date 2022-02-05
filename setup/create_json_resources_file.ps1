@@ -7,7 +7,7 @@
   ╙──────────────────────────────────────────────────────────────────────────────────────
  #>
 
-function Initialize-HostsOnlineResources{
+
     [CmdletBinding(SupportsShouldProcess)]
     Param
     (
@@ -21,15 +21,13 @@ function Initialize-HostsOnlineResources{
 
     try{
         If( $PSBoundParameters.ContainsKey('Path') -eq $False ){ 
-            if(($ENV:PowerShellScriptsDev -eq $null) -Or ($ENV:PowerShellScriptsDev -eq '')){ $ENV:PowerShellScriptsDev = '$ENV:Temp\PowerShellDev' ; }
-            $ModulePath = Join-Path $ENV:PowerShellScriptsDev 'PowerShell.Module.WindowsHosts'
+            $ModulePath = (Resolve-Path "$PSScriptRoot\..").Path
             $ResPath = Join-Path $ModulePath 'res'
             $Path = Join-Path $ResPath 'online_resources.json'
             New-Item -Path $ResPath -ItemType Directory -ErrorAction Ignore -Force| Out-Null
-            Write-Host "[init   path] " -f DarkRed -NoNewLine
-            Write-Host " using $Path" -f DarkYellow  
+            Write-output "Generating $Path"
         }
-
+        $InitDateStr = (Get-Date).GetDateTimeFormats()[12]
         $HostsFileResources = [System.Collections.ArrayList]::new()
         $hosts_source='https://someonewhocares.org/hosts/hosts'
         $adservers_hosts='https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt'
@@ -38,44 +36,48 @@ function Initialize-HostsOnlineResources{
         $res = [PSCustomObject]@{
                         Name        = 'someonewhocares'
                         Url         = $hosts_source
-                        LastUpdate  = 'Feb 4, 2022 12:22:38 PM'
-                        Hash        = '132'
+                        LastUpdate  = 'never'
+                        Hash        = '0'
+                        AddedOn     = "$InitDateStr"
                     };
         $HostsFileResources.Add($res) | Out-Null
         $DbgStr = $res | ConvertTo-Json
-        Write-Host "[adding  url] " -f DarkRed -n ; Write-Host "$hosts_source" -f DarkGray -n ; Write-Host "--> ok " -f DarkGreen
+        Write-output "adding $hosts_source"
         $res = [PSCustomObject]@{
                         Name        = 'adservers_hosts'
                         Url         = $adservers_hosts
-                        LastUpdate  = 'Feb 4, 2022 12:22:38 PM'
-                        Hash        = '132'
+                        LastUpdate  = 'never'
+                        Hash        = '0'
+                        AddedOn     = "$InitDateStr"
                     }
         $HostsFileResources.Add($res) | Out-Null
         $DbgStr = $res | ConvertTo-Json
-        Write-Host "[adding  url] " -f DarkRed -n ; Write-Host "$adservers_hosts" -f DarkGray -n ; Write-Host "--> ok " -f DarkGreen
+        Write-output "adding $adservers_hosts"
         $res = [PSCustomObject]@{
                         Name        = 'facebook_hosts'
                         Url         = $facebook_hosts
-                        LastUpdate  = 'Feb 4, 2022 12:22:38 PM'
-                        Hash        = '132'
+                        LastUpdate  = 'never'
+                        Hash        = '0'
+                        AddedOn     = "$InitDateStr"
                     }
         $HostsFileResources.Add($res) | Out-Null
         $DbgStr = $res | ConvertTo-Json
-        Write-Host "[adding  url] " -f DarkRed -n ; Write-Host "$facebook_hosts" -f DarkGray -n ; Write-Host "--> ok " -f DarkGreen
+        Write-output "adding $facebook_hosts"
 
         $res = [PSCustomObject]@{
                         Name        = 'arsscriptum_hosts'
                         Url         = $arsscriptum_hosts
-                        LastUpdate  = 'Feb 4, 2022 12:22:38 PM'
-                        Hash        = '132'
+                        LastUpdate  = 'never'
+                        Hash        = '0'
+                        AddedOn     = "$InitDateStr"
                     }
         $HostsFileResources.Add($res) | Out-Null
         $DbgStr = $res | ConvertTo-Json
-        Write-Host "[adding  url] "  -f DarkRed -n ; Write-Host "$arsscriptum_hosts" -f DarkGray -n ; Write-Host "--> ok " -f DarkGreen
+        Write-output "adding $arsscriptum_hosts"
 
         $JsonResources = $HostsFileResources | ConvertTo-Json
         Set-Content -Path $Path -Value $JsonResources
-        Write-Host "[saving json] " -f DarkRed -n ; Write-Host "$Path" -f DarkYellow
+        Write-output "Saved $Path"
         $Txt = "You can now use this file to initialise the module with starting values"
 
         Write-Host "`n`nDone! " -f DarkGreen -n ; Write-Host "$Txt" -f DarkCyan
@@ -85,4 +87,4 @@ function Initialize-HostsOnlineResources{
     }catch{
         Write-Host "ERROR " -f DarkRed -n ; Write-Host "$_" -f DarkYellow
     }
-}
+

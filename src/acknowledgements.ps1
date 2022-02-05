@@ -7,7 +7,7 @@
   ╙──────────────────────────────────────────────────────────────────────────────────────
  #>
 
-$acknowledgements = @'
+$Script:acknowledgements = @'
 
 # Acknowledgements
 # I'd like to thank the following people for submitting sites, and

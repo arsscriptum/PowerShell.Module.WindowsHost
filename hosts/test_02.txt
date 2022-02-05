@@ -1,0 +1,740 @@
+########################################
+# THIS IS A TEST FILE ONLY
+# THIS IS A TEST FILE ONLY
+# THIS IS A TEST FILE ONLY
+# THIS IS A TEST FILE ONLY
+# THIS IS A TEST FILE ONLY
+# THIS IS A TEST FILE ONLY
+########################################
+#
+# All sorts of irregular entries are 
+# tested here.
+#
+#
+
+#<localhost>
+127.0.0.1	localhost
+127.0.0.1	localhost.localdomain
+255.255.255.255	broadcasthost
+::1		localhost
+127.0.0.1	local
+::1		ip6-localhost ip6-loopback
+fe00::0		ip6-localnet
+ff00::0		ip6-mcastprefix
+ff02::1		ip6-allnodes
+ff02::2		ip6-allrouters
+ff02::3		ip6-allhosts
+#fe80::1%lo0	localhost
+#</localhost>
+
+#<shock-sites>
+# For example, to block unpleasant pages, try:
+0.0.0.0 goatse.cx       # More information on sites such as 
+0.0.0.0 www.goatse.cx   # these can be found in this article
+0.0.0.0 oralse.cx       # en.wikipedia.org/wiki/List_of_shock_sites
+0.0.0.0 www.oralse.cx
+0.0.0.0 goatse.ca
+0.0.0.0 www.goatse.ca
+0.0.0.0 oralse.ca
+0.0.0.0 www.oralse.ca
+0.0.0.0 goat.cx
+0.0.0.0 www.goat.cx
+0.0.0.0 shafou.com
+0.0.0.0 www.shafou.com
+
+0.0.0.0 1girl1pitcher.com
+0.0.0.0 1girl1pitcher.org
+0.0.0.0 1guy1cock.com
+0.0.0.0 1man1jar.org
+0.0.0.0 1man2needles.com
+0.0.0.0 1priest1nun.com
+0.0.0.0 1priest1nun.net
+0.0.0.0 2girls1cup-free.com
+0.0.0.0 2girls1cup.cc
+0.0.0.0 2girls1cup.com
+0.0.0.0 2girls1cup.nl
+0.0.0.0 2girls1cup.ws
+0.0.0.0 2girls1finger.com
+0.0.0.0 2girls1finger.org
+0.0.0.0 2guys1stump.org
+0.0.0.0 3guys1hammer.ws
+0.0.0.0 4girlsfingerpaint.com
+0.0.0.0 4girlsfingerpaint.org
+0.0.0.0 bagslap.com
+0.0.0.0 ballsack.org
+0.0.0.0 bestgore.com
+0.0.0.0 bestgore.fun
+0.0.0.0 bestshockers.com
+0.0.0.0 bluewaffle.biz
+0.0.0.0 bottleguy.com
+0.0.0.0 bowlgirl.com
+0.0.0.0 cadaver.org
+0.0.0.0 clownsong.com
+0.0.0.0 cyberscat.com
+0.0.0.0 dadparty.com
+0.0.0.0 detroithardcore.com
+0.0.0.0 donotwatch.org
+0.0.0.0 dontwatch.us
+0.0.0.0 eelsoup.net
+0.0.0.0 fruitlauncher.com
+0.0.0.0 funnelchair.com
+0.0.0.0 goatse.bz
+0.0.0.0 goatse.ru
+0.0.0.0 goatsegirl.org
+0.0.0.0 hai2u.com
+0.0.0.0 homewares.org
+0.0.0.0 howtotroll.org
+0.0.0.0 japscat.org
+0.0.0.0 jarsquatter.com
+0.0.0.0 jiztini.com
+0.0.0.0 kids-in-sandbox.com
+0.0.0.0 kidsinsandbox.info
+0.0.0.0 lemonparty.biz
+0.0.0.0 lemonparty.org
+0.0.0.0 lolhello.com
+0.0.0.0 lolshock.com
+0.0.0.0 loltrain.com
+0.0.0.0 meatspin.biz
+0.0.0.0 meatspin.com
+0.0.0.0 merryholidays.org
+0.0.0.0 milkfountain.com
+0.0.0.0 mudfall.com
+0.0.0.0 mudmonster.org
+0.0.0.0 nimp.org
+0.0.0.0 nobrain.dk
+0.0.0.0 nutabuse.com
+0.0.0.0 octopusgirl.com
+0.0.0.0 on.nimp.org
+0.0.0.0 painolympics.info
+0.0.0.0 painolympics.org
+0.0.0.0 phonejapan.com
+0.0.0.0 pressurespot.com
+0.0.0.0 prolapseman.com
+0.0.0.0 scrollbelow.com
+0.0.0.0 selfpwn.org
+0.0.0.0 shockgore.com
+0.0.0.0 sourmath.com
+0.0.0.0 strawpoii.me
+0.0.0.0 suckdude.com
+0.0.0.0 thatsjustgay.com
+0.0.0.0 thatsphucked.com
+0.0.0.0 thehomo.org
+0.0.0.0 themacuser.org
+0.0.0.0 thepounder.com
+0.0.0.0 tubgirl.me
+0.0.0.0 tubgirl.org
+0.0.0.0 turdgasm.com
+0.0.0.0 vomitgirl.org
+0.0.0.0 walkthedinosaur.com
+0.0.0.0 whipcrack.org
+0.0.0.0 wormgush.com
+0.0.0.0 www.1girl1pitcher.org
+0.0.0.0 www.1guy1cock.com
+0.0.0.0 www.1man1jar.org
+0.0.0.0 www.1man2needles.com
+0.0.0.0 www.1priest1nun.com
+0.0.0.0 www.1priest1nun.net
+0.0.0.0 www.2girls1cup-free.com
+0.0.0.0 www.2girls1cup.cc
+0.0.0.0 www.2girls1cup.nl
+0.0.0.0 www.2girls1cup.ws
+0.0.0.0 www.2girls1finger.org
+0.0.0.0 www.2guys1stump.org
+0.0.0.0 www.3guys1hammer.ws
+0.0.0.0 www.4girlsfingerpaint.org
+0.0.0.0 www.bagslap.com
+0.0.0.0 www.ballsack.org
+0.0.0.0 www.bestshockers.com
+0.0.0.0 www.bluewaffle.biz
+0.0.0.0 www.bottleguy.com
+0.0.0.0 www.bowlgirl.com
+0.0.0.0 www.cadaver.org
+0.0.0.0 www.clownsong.com
+0.0.0.0 www.cyberscat.com
+0.0.0.0 www.dadparty.com
+0.0.0.0 www.detroithardcore.com
+0.0.0.0 www.donotwatch.org
+0.0.0.0 www.dontwatch.us
+0.0.0.0 www.eelsoup.net
+0.0.0.0 www.fruitlauncher.com
+0.0.0.0 www.funnelchair.com
+0.0.0.0 www.goatse.bz
+0.0.0.0 www.goatse.ru
+0.0.0.0 www.goatsegirl.org
+0.0.0.0 www.hai2u.com
+0.0.0.0 www.homewares.org
+0.0.0.0 www.howtotroll.org
+0.0.0.0 www.japscat.org
+0.0.0.0 www.jiztini.com
+0.0.0.0 www.kids-in-sandbox.com
+0.0.0.0 www.kidsinsandbox.info
+0.0.0.0 www.lemonparty.biz
+0.0.0.0 www.lemonparty.org
+0.0.0.0 www.lolhello.com
+0.0.0.0 www.lolshock.com
+0.0.0.0 www.loltrain.com
+0.0.0.0 www.meatspin.biz
+0.0.0.0 www.meatspin.com
+0.0.0.0 www.merryholidays.org
+0.0.0.0 www.milkfountain.com
+0.0.0.0 www.mudfall.com
+0.0.0.0 www.mudmonster.org
+0.0.0.0 www.nimp.org
+0.0.0.0 www.nobrain.dk
+0.0.0.0 www.nutabuse.com
+0.0.0.0 www.octopusgirl.com
+0.0.0.0 www.on.nimp.org
+0.0.0.0 www.painolympics.info
+0.0.0.0 www.painolympics.org
+0.0.0.0 www.phonejapan.com
+0.0.0.0 www.pressurespot.com
+0.0.0.0 www.prolapseman.com
+0.0.0.0 www.punishtube.com
+0.0.0.0 www.scrollbelow.com
+0.0.0.0 www.selfpwn.org
+0.0.0.0 www.sourmath.com
+0.0.0.0 www.strawpoii.me
+0.0.0.0 www.suckdude.com
+0.0.0.0 www.thatsjustgay.com
+0.0.0.0 www.thatsphucked.com
+0.0.0.0 www.theexgirlfriends.com
+0.0.0.0 www.thehomo.org
+0.0.0.0 www.themacuser.org
+0.0.0.0 www.thepounder.com
+0.0.0.0 www.tubgirl.me
+0.0.0.0 www.tubgirl.org
+0.0.0.0 www.turdgasm.com
+0.0.0.0 www.vomitgirl.org
+0.0.0.0 www.walkthedinosaur.com
+0.0.0.0 www.whipcrack.org
+0.0.0.0 www.wormgush.com
+0.0.0.0 www.xvideoslive.com
+0.0.0.0 www.youaresogay.com
+0.0.0.0 www.ypmate.com
+0.0.0.0 www.zentastic.com
+0.0.0.0 youaresogay.com
+0.0.0.0 zentastic.com
+#</shock-sites>
+
+#<shortcut-examples>
+# As well by specifying the ipaddress of a server, you can gain access
+#   to some of your favourite sites with a single letter, instead of
+#   using the whole domain name
+# It is perhaps a better solution to use Favourites/Bookmarks instead.
+#216.34.181.45   s        # slashdot.org
+#74.125.127.105	g        # google.com
+#</shortcut-examples>
+
+#<hijack-sites>
+# The sites ads234.com and ads345.com -- These sites hijack internet explorer 
+# and redirect all requests through their servers. You may need to use spyware 
+# removal programs such as SpyBotS&D, AdAware or HijackThis to remove this 
+# nasty parasite. It's possible that blocking these sites using a hosts file 
+# may not work, in which case you should remove the following lines from this
+# file and try the tools listed above immediately. Don't forget to reboot 
+# after a scan.
+0.0.0.0 ads234.com
+0.0.0.0 ads345.com
+0.0.0.0 www.ads234.com
+0.0.0.0 www.ads345.com
+#</hijack-sites>
+
+
+#<spyware-sites>
+# Spyware and user tracking
+# By entering domains here, it will prevent certain companies from
+# gathering information on your surfing habits. These servers do not
+# necessarily serve ads, instead some are used by certain products to
+# "phone home". Others use web cookies to gather statistics on surfing 
+# habits. Among other uses, this is a common tactic by spammers, to 
+# let them know that you have read your mail. 
+# Uncomment (remove the #) the lines that you wish to block, as some
+# may provide you with services you like.
+
+#<maybe-spy>
+#0.0.0.0 auto.search.msn.com  # Microsoft uses this server to redirect
+                                # mistyped URLs to search engines. They
+                                # log all such errors.
+#0.0.0.0 sitefinder.verisign.com	# Verisign has joined the game 
+#0.0.0.0 sitefinder-idn.verisign.com	# of trying to hijack mistyped
+					# URLs to their site. 
+					# May break iOS Game Center.
+
+#0.0.0.0 s0.2mdn.net		# This may interfere with some streaming 
+				# video on sites such as cbc.ca
+#0.0.0.0 ad.doubleclick.net   # This may interefere with www.sears.com
+				# and potentially other sites. 
+0.0.0.0 media.fastclick.net	# Likewise, this may interfere with some
+0.0.0.0 cdn.fastclick.net	# sites. 
+#0.0.0.0 ebay.doubleclick.net		# may interfere with ebay
+#0.0.0.0 google-analytics.com			# breaks some sites
+#0.0.0.0 ssl.google-analytics.com
+#0.0.0.0 www.google-analytics.l.google.com
+#0.0.0.0 stat.livejournal.com		# There are reports that this may mess 
+ 					# up CSS on livejournal
+#0.0.0.0 stats.surfaid.ihost.com	# This has been known cause 
+					# problems with NPR.org
+#0.0.0.0 www.google-analytics.com		# breaks some sites
+#0.0.0.0 ads.imeem.com		# Seems to interfere with the functioning of imeem.com
+#</maybe-spy>
+
+#0.0.0.0 ci-mpsnare.iovation.com	# See http://www.codingthewheel.com/archives/online-gambling-privacy-iesnare
+#0.0.0.0 ll.a.hulu.com	# Uncomment to block Hulu.
+#0.0.0.0 metrics.ticketmaster.com	# interferes with logging in to ticketmaster.com
+#0.0.0.0 nl.sitestat.com	# may interfere with duo.nl
+#0.0.0.0 pro.hit.gemius.pl	# May interfere with some video sites
+#0.0.0.0 services.krxd.net
+#0.0.0.0 stats.channel4.com
+#0.0.0.0 t2.hulu.com		# Uncomment to block Hulu.
+#0.0.0.0 track.hulu.com	# Uncomment to block Hulu.
+#0.0.0.0 webstat.channel4.com
+#0.0.0.0 www.googletagservices.com		#interferes with techrepublic
+0.0.0.0 006.free-counter.co.uk
+0.0.0.0 006.freecounters.co.uk
+0.0.0.0 0stats.com
+0.0.0.0 123counter.mycomputer.com
+0.0.0.0 123counter.superstats.com
+0.0.0.0 1ca.cqcounter.com
+0.0.0.0 1uk.cqcounter.com
+0.0.0.0 1us.cqcounter.com
+0.0.0.0 1xxx.cqcounter.com
+0.0.0.0 20585485p.rfihub.com
+0.0.0.0 4-counter.com
+0.0.0.0 a-nj.1rx.io
+0.0.0.0 a-ssl.ligatus.com
+0.0.0.0 a.predictvideo.com
+0.0.0.0 a.visualrevenue.com
+0.0.0.0 abclnks.com
+0.0.0.0 aboardamusement.com
+0.0.0.0 abscbn.spinbox.net
+0.0.0.0 activity.serving-sys.com	#eyeblaster.com
+0.0.0.0 adadvisor.net
+0.0.0.0 adapi.ragapa.com
+0.0.0.0 adcounter.theglobeandmail.com
+0.0.0.0 addfreestats.com
+0.0.0.0 adelogs.adobe.com	#See http://www.theregister.co.uk/2014/10/07/adobe_digital_editions_4_caught_snooping_into_ebook_collections_of_users/
+0.0.0.0 ademails.com
+0.0.0.0 adlog.com.com # Used by Ziff Davis to serve 
+  # ads and track users across 
+  # the com.com family of sites
+0.0.0.0 admin.iovation.com
+0.0.0.0 adopt.specificclick.net
+0.0.0.0 adpatrof.com
+0.0.0.0 ads.tiscali.it
+0.0.0.0 adtrack.appcpi.net
+0.0.0.0 adult.foxcounter.com
+0.0.0.0 affpool.com
+0.0.0.0 alert.mac-notification.com
+0.0.0.0 alpha.easy-hit-counters.com
+0.0.0.0 amateur.xxxcounter.com
+0.0.0.0 amer.rel.msn.com
+0.0.0.0 an.mlb.com
+0.0.0.0 analytics-ingress-global.bitmovin.com
+0.0.0.0 analytics-static.ugc.bazaarvoice.com
+0.0.0.0 analytics.global.sky.com
+0.0.0.0 analytics.msnbc.msn.com
+0.0.0.0 analytics.ooyala.com
+0.0.0.0 analytics.prx.org
+0.0.0.0 analytics.publitas.com
+0.0.0.0 analytics.sleeknote.com
+0.0.0.0 analytics.tiktok.com
+0.0.0.0 anonymousdemographics.com
+0.0.0.0 ant.conversive.nl
+0.0.0.0 apac.rel.msn.com
+0.0.0.0 api.adsymptotic.com
+0.0.0.0 api.behavioralengine.com
+0.0.0.0 api.bizographics.com
+0.0.0.0 api.gameanalytics.com
+0.0.0.0 api.infinario.com
+0.0.0.0 api.intentiq.com
+0.0.0.0 api.redshell.io
+0.0.0.0 api.simpleanalytics.io
+0.0.0.0 api.tumra.com
+0.0.0.0 apiadapter.ad5track.com
+0.0.0.0 apis.murdoog.com
+0.0.0.0 app-analytics-v2.snapchat.com
+0.0.0.0 app-analytics.snapchat.com
+0.0.0.0 app.yesware.com
+0.0.0.0 arbo.hit.gemius.pl
+0.0.0.0 aus-mec-tracking.adalyser.com
+0.0.0.0 aus-smv-tracking.adalyser.com
+0.0.0.0 auspice.augur.io
+0.0.0.0 b.stats.paypal.com
+0.0.0.0 bam.nr-data.net
+0.0.0.0 banner.0catch.com
+0.0.0.0 banners.webcounter.com
+0.0.0.0 be.sitestat.com
+0.0.0.0 beacon-1.newrelic.com
+0.0.0.0 beacon.krxd.net
+0.0.0.0 beacon.scorecardresearch.com
+0.0.0.0 belierlaine.com
+0.0.0.0 benchemail.bmetrack.com
+0.0.0.0 best-search.cc	#spyware
+0.0.0.0 beta.easy-hit-counters.com
+0.0.0.0 beta.easyhitcounters.com
+0.0.0.0 bigdata.adfuture.cn
+0.0.0.0 bigdata.adsunflower.com
+0.0.0.0 bigdata.adups.com
+0.0.0.0 bigdata.advmob.cn
+0.0.0.0 bindedge.com
+0.0.0.0 bindfast.com
+0.0.0.0 bkrtx.com
+0.0.0.0 bleachbit.com
+0.0.0.0 bluekai.com
+0.0.0.0 bluestreak.com
+0.0.0.0 brightroll.com
+0.0.0.0 brucelead.com
+0.0.0.0 c.go-mpulse.net
+0.0.0.0 c.statcounter.com
+0.0.0.0 c.thecounter.de
+0.0.0.0 c0.adalyser.com
+0.0.0.0 c1.statcounter.com
+0.0.0.0 c1.thecounter.de
+0.0.0.0 c1.xxxcounter.com
+0.0.0.0 c10.statcounter.com
+0.0.0.0 c11.statcounter.com
+0.0.0.0 c12.statcounter.com
+0.0.0.0 c13.statcounter.com
+0.0.0.0 c14.statcounter.com
+0.0.0.0 c15.statcounter.com
+0.0.0.0 c16.statcounter.com
+0.0.0.0 c17.statcounter.com
+0.0.0.0 c2.gostats.com
+0.0.0.0 c2.thecounter.de
+0.0.0.0 c2.xxxcounter.com
+0.0.0.0 c3.adalyser.com
+0.0.0.0 c3.gostats.com
+0.0.0.0 c3.statcounter.com
+0.0.0.0 c3.xxxcounter.com
+0.0.0.0 c4.myway.com
+0.0.0.0 c4.statcounter.com
+0.0.0.0 c5.statcounter.com
+0.0.0.0 c6.statcounter.com
+0.0.0.0 c7.statcounter.com
+0.0.0.0 c8.statcounter.com
+0.0.0.0 c9.statcounter.com
+0.0.0.0 ca.cqcounter.com
+0.0.0.0 cashcounter.com
+0.0.0.0 cb1.counterbot.com
+0.0.0.0 ccleaner.fr
+0.0.0.0 cdn-gl.imrworldwide.com
+0.0.0.0 cdn-social.janrain.com
+0.0.0.0 cdn.decibelinsight.net
+0.0.0.0 cdn.doublepimpssl.com
+0.0.0.0 cdn.simpleanalytics.io
+0.0.0.0 cdn.taboolasyndication.com
+0.0.0.0 cdn.zarget.com
+0.0.0.0 cf.addthis.com
+0.0.0.0 cgi.sexlist.com
+0.0.0.0 cgicounter.onlinehome.de
+0.0.0.0 cgicounter.puretec.de
+0.0.0.0 ci-admin.iovation.com
+0.0.0.0 cig-arrete.com
+0.0.0.0 citrix.tradedoubler.com
+0.0.0.0 cjt1.net
+0.0.0.0 clckcloud.com
+0.0.0.0 click.atdmt.com
+0.0.0.0 click.icptrack.com
+0.0.0.0 click.jve.net
+0.0.0.0 click.payserve.com
+0.0.0.0 click.silvercash.com
+0.0.0.0 clickauditor.net
+0.0.0.0 clickmeter.com
+0.0.0.0 clicks.emarketmakers.com
+0.0.0.0 clicks.m4n.nl
+0.0.0.0 clicks.natwest.com
+0.0.0.0 clicks.rbs.co.uk
+0.0.0.0 clickspring.net	#used by a spyware product called PurityScan
+0.0.0.0 clickstatsview.earnmoneycasinos.com
+0.0.0.0 clicktrack.onlineemailmarketing.com
+0.0.0.0 clicktrack.premium-shops.net
+0.0.0.0 clicktracker.alloymarketing.com
+0.0.0.0 clicktracks.webmetro.com
+0.0.0.0 clit10.sextracker.com
+0.0.0.0 clit13.sextracker.com
+0.0.0.0 clit15.sextracker.com
+0.0.0.0 clit2.sextracker.com
+0.0.0.0 clit4.sextracker.com
+0.0.0.0 clit6.sextracker.com
+0.0.0.0 clit7.sextracker.com
+0.0.0.0 clit8.sextracker.com
+0.0.0.0 clit9.sextracker.com
+0.0.0.0 clk.aboxdeal.com
+0.0.0.0 clk.relestar.com
+0.0.0.0 cnn.entertainment.printthis.clickability.com
+0.0.0.0 cnt.xcounter.com
+0.0.0.0 code.murdoog.com
+0.0.0.0 collector.deepmetrix.com
+0.0.0.0 connectionlead.com
+0.0.0.0 connexity.net
+0.0.0.0 convertro.com
+0.0.0.0 convnjmp.basebanner.com
+0.0.0.0 cookies.cmpnet.com
+0.0.0.0 count.channeladvisor.com
+0.0.0.0 count.paycounter.com
+0.0.0.0 counter.123counts.com
+0.0.0.0 counter.adultcheck.com
+0.0.0.0 counter.adultrevenueservice.com
+0.0.0.0 counter.advancewebhosting.com
+0.0.0.0 counter.aport.ru
+0.0.0.0 counter.avp2000.com
+0.0.0.0 counter.bizland.com
+0.0.0.0 counter.bloke.com
+0.0.0.0 counter.clubnet.ro
+0.0.0.0 counter.cnw.cz
+0.0.0.0 counter.cz
+0.0.0.0 counter.dreamhost.com
+0.0.0.0 counter.execpc.com
+0.0.0.0 counter.fateback.com
+0.0.0.0 counter.gamespy.com
+0.0.0.0 counter.hitslink.com
+0.0.0.0 counter.hitslinks.com
+0.0.0.0 counter.inetusa.com
+0.0.0.0 counter.kaspersky.com
+0.0.0.0 counter.letssingit.com
+0.0.0.0 counter.mtree.com
+0.0.0.0 counter.mycomputer.com
+0.0.0.0 counter.nope.dk
+0.0.0.0 counter.nowlinux.com
+0.0.0.0 counter.rambler.ru
+0.0.0.0 counter.search.bg
+0.0.0.0 counter.sparklit.com
+0.0.0.0 counter.superstats.com
+0.0.0.0 counter.surfcounters.com
+0.0.0.0 counter.topping.com.ua
+0.0.0.0 counter.tripod.com
+0.0.0.0 counter.w3open.com
+0.0.0.0 counter.webmedia.pl
+0.0.0.0 counter.xxxcool.com
+0.0.0.0 counter.yadro.ru
+0.0.0.0 counter1.bravenet.com
+0.0.0.0 counter1.sextracker.be
+0.0.0.0 counter1.sextracker.com
+0.0.0.0 counter10.bravenet.com
+0.0.0.0 counter10.sextracker.be
+0.0.0.0 counter10.sextracker.com
+0.0.0.0 counter11.bravenet.com
+0.0.0.0 counter11.sextracker.be
+0.0.0.0 counter11.sextracker.com
+0.0.0.0 counter12.bravenet.com
+0.0.0.0 counter12.sextracker.be
+0.0.0.0 counter12.sextracker.com
+0.0.0.0 counter13.bravenet.com
+0.0.0.0 counter13.sextracker.be
+0.0.0.0 counter13.sextracker.com
+0.0.0.0 counter14.bravenet.com
+0.0.0.0 counter14.sextracker.be
+0.0.0.0 counter14.sextracker.com
+0.0.0.0 counter15.bravenet.com
+0.0.0.0 counter15.sextracker.be
+0.0.0.0 counter15.sextracker.com
+0.0.0.0 counter16.bravenet.com
+0.0.0.0 counter16.sextracker.be
+0.0.0.0 counter16.sextracker.com
+0.0.0.0 counter17.bravenet.com
+0.0.0.0 counter18.bravenet.com
+0.0.0.0 counter19.bravenet.com
+0.0.0.0 counter2.bravenet.com
+0.0.0.0 counter2.freeware.de
+0.0.0.0 counter2.hitslink.com
+0.0.0.0 counter2.sextracker.be
+0.0.0.0 counter2.sextracker.com
+0.0.0.0 counter20.bravenet.com
+0.0.0.0 counter21.bravenet.com
+0.0.0.0 counter22.bravenet.com
+0.0.0.0 counter23.bravenet.com
+0.0.0.0 counter24.bravenet.com
+0.0.0.0 counter25.bravenet.com
+0.0.0.0 counter26.bravenet.com
+0.0.0.0 counter27.bravenet.com
+0.0.0.0 counter28.bravenet.com
+0.0.0.0 counter29.bravenet.com
+0.0.0.0 counter3.bravenet.com
+0.0.0.0 counter3.sextracker.be
+0.0.0.0 counter3.sextracker.com
+0.0.0.0 counter30.bravenet.com
+0.0.0.0 counter31.bravenet.com
+0.0.0.0 counter32.bravenet.com
+0.0.0.0 counter33.bravenet.com
+0.0.0.0 counter34.bravenet.com
+0.0.0.0 counter35.bravenet.com
+0.0.0.0 counter36.bravenet.com
+0.0.0.0 counter37.bravenet.com
+0.0.0.0 counter38.bravenet.com
+0.0.0.0 counter39.bravenet.com
+0.0.0.0 counter4.bravenet.com
+0.0.0.0 counter4.sextracker.be
+0.0.0.0 counter4.sextracker.com
+0.0.0.0 counter40.bravenet.com
+0.0.0.0 counter41.bravenet.com
+0.0.0.0 counter42.bravenet.com
+0.0.0.0 counter43.bravenet.com
+0.0.0.0 counter44.bravenet.com
+0.0.0.0 counter45.bravenet.com
+0.0.0.0 counter46.bravenet.com
+0.0.0.0 counter47.bravenet.com
+0.0.0.0 counter48.bravenet.com
+0.0.0.0 counter49.bravenet.com
+0.0.0.0 counter4all.dk
+0.0.0.0 counter4u.de
+0.0.0.0 counter5.bravenet.com
+0.0.0.0 counter5.sextracker.be
+0.0.0.0 counter5.sextracker.com
+0.0.0.0 counter50.bravenet.com
+0.0.0.0 counter6.bravenet.com
+0.0.0.0 counter6.sextracker.be
+0.0.0.0 counter6.sextracker.com
+0.0.0.0 counter7.bravenet.com
+0.0.0.0 counter7.sextracker.be
+0.0.0.0 counter7.sextracker.com
+0.0.0.0 counter8.bravenet.com
+0.0.0.0 counter8.sextracker.be
+0.0.0.0 counter8.sextracker.com
+0.0.0.0 counter9.bravenet.com
+0.0.0.0 counter9.sextracker.be
+0.0.0.0 counter9.sextracker.com
+0.0.0.0 counteraport.spylog.com
+0.0.0.0 counterbot.com
+0.0.0.0 countercrazy.com
+0.0.0.0 counters.auctionhelper.com		# comment these 
+0.0.0.0 counters.auctionwatch.com		# out to allow 
+0.0.0.0 counters.auctiva.com			# tracking by
+0.0.0.0 counters.honesty.com			# ebay users
+0.0.0.0 cs.sexcounter.com
+0.0.0.0 cw.nu
+0.0.0.0 cyberduck.fr
+0.0.0.0 cyseal.cyveillance.com
+0.0.0.0 cz3.clickzs.com
+0.0.0.0 cz6.clickzs.com
+0.0.0.0 da.newstogram.com
+0.0.0.0 dap.digitalgov.gov
+0.0.0.0 data.coremetrics.com
+0.0.0.0 data.murdoog.com
+0.0.0.0 data.webads.co.nz
+0.0.0.0 data2.perf.overture.com
+0.0.0.0 dc43.s290.meetrics.net
+0.0.0.0 dclk.themarker.com
+0.0.0.0 dclk.themarketer.com
+0.0.0.0 de-config.sensic.net
+0.0.0.0 de.sitestat.com
+0.0.0.0 de.tynt.com
+0.0.0.0 def.dev-nano.com
+0.0.0.0 didtheyreadit.com		# email bugs
+0.0.0.0 digistats.westjet.com
+0.0.0.0 dimeprice.com		# "spam bugs"
+0.0.0.0 directads.mcafee.com
+0.0.0.0 dkb01.webtrekk.net
+0.0.0.0 dnsdelegation.io
+0.0.0.0 dotcomsecrets.com
+0.0.0.0 dpbolvw.net
+0.0.0.0 dwclick.com
+0.0.0.0 dyn.emetriq.de
+0.0.0.0 e-2dj6wfk4ehd5afq.stats.esomniture.com
+0.0.0.0 e-2dj6wfk4ggdzkbo.stats.esomniture.com
+0.0.0.0 e-2dj6wfk4gkcpiep.stats.esomniture.com
+0.0.0.0 e-2dj6wfk4skdpogo.stats.esomniture.com
+0.0.0.0 e-2dj6wfkiakdjgcp.stats.esomniture.com
+0.0.0.0 e-2dj6wfkiepczoeo.stats.esomniture.com
+0.0.0.0 e-2dj6wfkikjd5glq.stats.esomniture.com
+0.0.0.0 e-2dj6wfkiokc5odp.stats.esomniture.com
+0.0.0.0 e-2dj6wfkiqjcpifp.stats.esomniture.com
+0.0.0.0 e-2dj6wfkocjczedo.stats.esomniture.com
+0.0.0.0 e-2dj6wfkokjajseq.stats.esomniture.com
+0.0.0.0 e-2dj6wfkowkdjokp.stats.esomniture.com
+0.0.0.0 e-2dj6wfkykpazskq.stats.esomniture.com
+0.0.0.0 e-2dj6wflicocjklo.stats.esomniture.com
+0.0.0.0 e-2dj6wfligpd5iap.stats.esomniture.com
+0.0.0.0 e-2dj6wflikgdpodo.stats.esomniture.com
+0.0.0.0 e-2dj6wflikiajslo.stats.esomniture.com
+0.0.0.0 e-2dj6wflioldzoco.stats.esomniture.com
+0.0.0.0 e-2dj6wfliwpczolp.stats.esomniture.com
+0.0.0.0 e-2dj6wfloenczmkq.stats.esomniture.com
+0.0.0.0 e-2dj6wflokmajedo.stats.esomniture.com
+0.0.0.0 e-2dj6wfloqgc5mho.stats.esomniture.com
+0.0.0.0 e-2dj6wfmysgdzobo.stats.esomniture.com
+0.0.0.0 e-2dj6wgkigpcjedo.stats.esomniture.com
+0.0.0.0 e-2dj6wgkisnd5abo.stats.esomniture.com
+0.0.0.0 e-2dj6wgkoandzieq.stats.esomniture.com
+0.0.0.0 e-2dj6wgkycpcpsgq.stats.esomniture.com
+0.0.0.0 e-2dj6wgkyepajmeo.stats.esomniture.com
+0.0.0.0 e-2dj6wgkyknd5sko.stats.esomniture.com
+0.0.0.0 e-2dj6wgkyomdpalp.stats.esomniture.com
+0.0.0.0 e-2dj6whkiandzkko.stats.esomniture.com
+0.0.0.0 e-2dj6whkiepd5iho.stats.esomniture.com
+0.0.0.0 e-2dj6whkiwjdjwhq.stats.esomniture.com
+0.0.0.0 e-2dj6wjk4amd5mfp.stats.esomniture.com
+0.0.0.0 e-2dj6wjk4kkcjalp.stats.esomniture.com
+0.0.0.0 e-2dj6wjk4ukazebo.stats.esomniture.com
+0.0.0.0 e-2dj6wjkosodpmaq.stats.esomniture.com
+0.0.0.0 e-2dj6wjkouhd5eao.stats.esomniture.com
+0.0.0.0 e-2dj6wjkowhd5ggo.stats.esomniture.com
+0.0.0.0 e-2dj6wjkowjajcbo.stats.esomniture.com
+0.0.0.0 e-2dj6wjkyandpogq.stats.esomniture.com
+0.0.0.0 e-2dj6wjkycpdzckp.stats.esomniture.com
+0.0.0.0 e-2dj6wjkyqmdzcgo.stats.esomniture.com
+0.0.0.0 e-2dj6wjkysndzigp.stats.esomniture.com
+0.0.0.0 e-2dj6wjl4qhd5kdo.stats.esomniture.com
+0.0.0.0 e-2dj6wjlichdjoep.stats.esomniture.com
+0.0.0.0 e-2dj6wjliehcjglp.stats.esomniture.com
+0.0.0.0 e-2dj6wjlignajgaq.stats.esomniture.com
+0.0.0.0 e-2dj6wjloagc5oco.stats.esomniture.com
+0.0.0.0 e-2dj6wjlougazmao.stats.esomniture.com
+0.0.0.0 e-2dj6wjlyamdpogo.stats.esomniture.com
+0.0.0.0 e-2dj6wjlyckcpelq.stats.esomniture.com
+0.0.0.0 e-2dj6wjlyeodjkcq.stats.esomniture.com
+0.0.0.0 e-2dj6wjlygkd5ecq.stats.esomniture.com
+0.0.0.0 e-2dj6wjmiekc5olo.stats.esomniture.com
+0.0.0.0 e-2dj6wjmyehd5mfo.stats.esomniture.com
+0.0.0.0 e-2dj6wjmyooczoeo.stats.esomniture.com
+0.0.0.0 e-2dj6wjny-1idzkh.stats.esomniture.com
+0.0.0.0 e-2dj6wjnyagcpkko.stats.esomniture.com
+0.0.0.0 e-2dj6wjnyeocpcdo.stats.esomniture.com
+0.0.0.0 e-2dj6wjnygidjskq.stats.esomniture.com
+0.0.0.0 e-2dj6wjnyqkajabp.stats.esomniture.com
+0.0.0.0 e-n.y-1shz2prbmdj6wvny-1sez2pra2dj6wjmyepdzadpwudj6x9ny-1seq-2-2.stats.esomniture.com
+0.0.0.0 e-ny.a-1shz2prbmdj6wvny-1sez2pra2dj6wjny-1jcpgbowsdj6x9ny-1seq-2-2.stats.esomniture.com
+0.0.0.0 e.crashlytics.com
+0.0.0.0 easy-web-stats.com
+0.0.0.0 ecestats.theglobeandmail.com
+0.0.0.0 economisttestcollect.insightfirst.com
+0.0.0.0 eds.ca.matchbox.maruhub.com
+0.0.0.0 email.positionly.com
+0.0.0.0 emea.rel.msn.com
+0.0.0.0 engine.cmmeglobal.com
+0.0.0.0 enoratraffic.com
+0.0.0.0 environmentalgraffiti.uk.intellitxt.com
+0.0.0.0 es.optimost.com
+0.0.0.0 eu-track.inside-graph.com
+0.0.0.0 eus.rubiconproject.com
+0.0.0.0 exch.quantserve.com
+0.0.0.0 extremereach.com
+0.0.0.0 eztrck.com
+0.0.0.0 fastcounter.com
+0.0.0.0 fastcounter.linkexchange.net
+0.0.0.0 fastcounter.linkexchange.nl
+0.0.0.0 fastlane.rubiconproject.com
+0.0.0.0 fastwebcounter.com
+0.0.0.0 fdbdo.com
+0.0.0.0 fi.sitestat.com
+0.0.0.0 firebaselogging.googleapis.com
+0.0.0.0 fl01.ct2.comclick.com
+0.0.0.0 flixprice.com
+0.0.0.0 flury-ycpi.gycpi.b.yahoodns.net
+0.0.0.0 flycast.com
+0.0.0.0 formalyzer.com
+0.0.0.0 foxcounter.com
+0.0.0.0 free.xxxcounter.com
+0.0.0.0 freeinvisiblecounters.com
+0.0.0.0 freerapid.fr
+0.0.0.0 freestats.com
+0.0.0.0 freewebcounter.com
+0.0.0.0 fs10.fusestats.com
+0.0.0.0 ft2.autonomycloud.com
+0.0.0.0 gameanalysis.appcpi.net
+0.0.0.0 gapl.hit.gemius.pl
+0.0.0.0 gator.com
+0.0.0.0 gbr-7stars-tracking.adalyser.com
+0.0.0.0 gbr-carat-tracking.adalyser.com
+0.0.0.0 gbr-mbww-tracking.adalyser.com
+0.0.0.0 gbr-smv-tracking.adalyser.com
+0.0.0.0 gbr-tbh-tracking.adalyser.com

@@ -26,69 +26,6 @@ function Get-HostFilePath{
 
 
 
-function Initialize-WinHostModule{
-<#
-    .Synopsis
-       Setup the module. Needs to be run only once
-#>
-
-    [CmdletBinding(SupportsShouldProcess)]
-    Param
-    (
-        [ValidateScript({
-            if(-Not ($_ | Test-Path) ){
-                throw "File or folder does not exist"
-            }
-            if(-Not ($_ | Test-Path -PathType Leaf) ){
-                throw "The Path argument must be a json file. Directory paths are not allowed."
-            }
-            return $true 
-        })]
-        [Parameter(Mandatory=$true,Position=0)]
-        [String]$Path
-    )
-
-    # throw errors on undefined variables
-    Set-StrictMode -Version 1
-
-    # stop immediately on error
-    $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
-
-    $RegBasePath = "$ENV:OrganizationHKCU\Powershell.Module.WindowsHosts"
-    $null=Remove-Item -Path "$RegBasePath" -ErrorAction Ignore -Force -Recurse
-    Write-Host -ForegroundColor DarkGreen "[x] " -NoNewline ;Write-Host "reading $Path" 
-    $HostsResources = Get-Content -Path  $Path | ConvertFrom-Json
-    $HostsResourcesCount = $HostsResources.Count
-    Write-Host -ForegroundColor DarkGreen "[x] " -NoNewline ;Write-Host "found $HostsResourcesCount online resources" 
-    if($HostsResourcesCount -lt 1){
-        throw "No resources found in $Path"
-        return
-    }
-    try {
-        $ModPath = $PSScriptRoot
-        $null=New-Item -Path "$RegBasePath" -ItemType Directory -ErrorAction Ignore -Force
-        $null=New-RegistryValue "$RegBasePath" "module_location" $ModPath "string"
-        
-        ForEach($hst in $HostsResources){
-            $url = $hst.Url
-            $name = $hst.Name
-            $DateStr = (Get-Date).GetDateTimeFormats()[12]
-            $FileHash=$hst.Hash
-            $null=New-Item -Path "$RegBasePath\$name" -ItemType Directory -ErrorAction Ignore -Force
-            $null=New-RegistryValue "$RegBasePath\$name" "url" "$url" "string"
-            Write-Host -ForegroundColor DarkGreen "[i] " -NoNewline ;Write-Host "powershell.module.windowshosts\$name url $name" 
-            $null=New-RegistryValue "$RegBasePath\$name" "updated" "$DateStr" "string"
-            Write-Host -ForegroundColor DarkGreen "[i] " -NoNewline ;Write-Host "powershell.module.windowshosts\$name updated $DateStr" 
-            $null=New-RegistryValue "$RegBasePath\$name" "hash" "$FileHash" "string"
-            Write-Host -ForegroundColor DarkGreen "[i] " -NoNewline ;Write-Host "powershell.module.windowshosts\$name hash $FileHash" 
-        }
-        #Start-RegistryEditor "$RegBasePath"
-    }
-    catch{
-        Show-ExceptionDetails($_) -ShowStack
-    }
-}
-
 function Build-HostFileData{    ### NOEXPORT
 <#
     .Synopsis
@@ -193,8 +130,8 @@ function Build-HostFileData{    ### NOEXPORT
         }
       finally{
         $LocalHostsValuesCount = $LocalHostsValues.Count
-        Write-Host -n -f DarkGreen "[i] " 
-        Write-Host "Parsing complete $LocalHostsValuesCount entries."
+        
+        Write-MOk "Parsing complete $LocalHostsValuesCount entries."
         Write-Progress -Activity $Script:ProgressTitle -Completed
       }    
 
@@ -220,6 +157,7 @@ function Update-HostsValues{
     $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
 
   try {
+    $ShouldUpdateFile = $False
     $GlobalHostsValues = [System.Collections.ArrayList]::new()
     $RegBasePath = "$ENV:OrganizationHKCU\Powershell.Module.WindowsHosts"
     
@@ -233,31 +171,34 @@ function Update-HostsValues{
             $Url=(Get-ItemProperty "$RegBasePath\$hst").url
             $Hash=(Get-ItemProperty "$RegBasePath\$hst").hash
 
-            # DOWNLOAD
-            Write-Host -ForegroundColor DarkYellow "[w] " -NoNewline ;Write-Host "Chech Hash $Hash" 
-            # CHECK HASH
-            Write-Host -ForegroundColor DarkYellow "[w] " -NoNewline ;Write-Host "Download URL $Url" 
             # PARSE, etc...
             $DateStr = (Get-Date).GetDateTimeFormats()[12]
-            $FileHash=$hst.Hash
+            $FileHash=$Hash
 
             $TmpFilePath = (New-TemporaryFile).fullname
 
             $Downloaded = Get-OnlineFile $Url $TmpFilePath
         
-            $DownloadedHash=Get-FileHash $TmpFilePath
+            $DownloadedHash=(Get-FileHash $TmpFilePath).Hash
 
             if($FileHash -ne $DownloadedHash){
-                Write-Host -ForegroundColor DarkYellow "[w] " -NoNewline ;Write-Host "DIFFERENT HASHES - PARSING" 
+                $ShouldUpdateFile = $True
+                Write-MWarn "$FileHash vs $DownloadedHash"
+                Write-MWarn "DIFFERENT HASHES - PARSING" -h
+
+                $null=Set-RegistryValue "$RegBasePath\$hst" "last_update" "$DateStr" 
+                Write-MOk "powershell.module.windowshosts\$hst last_update $DateStr" 
+                $null=Set-RegistryValue "$RegBasePath\$hst" "hash" "$DownloadedHash" 
+                Write-MOk "powershell.module.windowshosts\$hst hash $DownloadedHash" 
 
                 $Data = Build-HostFileData -Path $TmpFilePath -OverrideIPAddress "0.0.0.0"
                 $GlobalHostsValues += $Data
                 $GlobalHostsValuesCount = $GlobalHostsValues.Count
                 Set-Variable -Name HOSTSVALUES -Scope Global -Option allscope -Value $GlobalHostsValues
-                Write-Host "[i] " -f DarkGreen -NoNewLine
-                Write-Host "Updated Global Variable. $GlobalHostsValuesCount entries." -f DarkGray        
+                
+                Write-MOk "Updated Global Variable. $GlobalHostsValuesCount entries."        
             }else{
-                Write-Host -ForegroundColor DarkYellow "[w] " -NoNewline ;Write-Host "SAME HASHES, BAILING"
+                Write-MOk "Nothing New from $Url" -h
                 continue
             }
 
@@ -265,29 +206,28 @@ function Update-HostsValues{
             Sleep 1
         }
     }
-    $Script:stepCounter = 0
-    $Script:ProgressTitle = 'STATE: SORTING'
-    Write-ProgressHelper -Message "Sorting all entries..." -StepNumber ($Script:stepCounter++)
-    $GlobalHostsValues = ($GlobalHostsValues | Sort-Object -Property "SubDomain" -Descending -Unique)
-    Write-Progress -Activity $Script:ProgressTitle -Completed
-    Write-Host "[i] " -f DarkGreen -NoNewLine
-    Write-Host "Values are sorted, made unique." -f DarkGray
-            
-    Write-Host "[i] " -f DarkGreen -NoNewLine
-    Write-Host "Starting to dump values to '$HostFilePath'" -f DarkGray
-    New-HostFile $HostFilePath
+    if($ShouldUpdateFile){
+        $Script:stepCounter = 0
+        $Script:ProgressTitle = 'STATE: SORTING'
+        Write-ProgressHelper -Message "Sorting all entries..." -StepNumber ($Script:stepCounter++)
+        $GlobalHostsValues = ($GlobalHostsValues | Sort-Object -Property "SubDomain" -Descending -Unique)
+        Write-Progress -Activity $Script:ProgressTitle -Completed
+       
+        Write-MMsg "Values are sorted, made unique."
+        Write-MMsg "Starting to dump values to '$HostFilePath'"
+        New-HostFile $HostFilePath
+    }
+
 
   }catch{
-      #Show-ExceptionDetails($_) -ShowStack
-      Write-Host -ForegroundColor DarkRed "[!] " -NoNewline
-      Write-Host "$_" -ForegroundColor DarkGray
+       #Show-ExceptionDetails($_) -ShowStack
+        Write-MError "$_" 
   }finally{
-      Write-Host -ForegroundColor DarkGreen "[i] " -NoNewline
-      Write-Host " update completed" -ForegroundColor DarkGray
+      Write-MMsg "update completed"
   }
 }
 
-function List-OnlineResources{
+function List-WinHostUrls{
 <#
     .Synopsis
        Update 
@@ -303,11 +243,15 @@ function List-OnlineResources{
     $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
 
   try {
-    $GlobalHostsValues = [System.Collections.ArrayList]::new()
+    $CurrentList = [System.Collections.ArrayList]::new()
     $RegBasePath = "$ENV:OrganizationHKCU\Powershell.Module.WindowsHosts"
     
     $HostsList=(Get-Item "$RegBasePath\*").PSChildName
     $count=$HostsList.Count
+    if($count -eq 0){
+        Write-MWarn "no online resources added yet" 
+        return
+    }
     $i = 0
     foreach($hst in $HostsList){
         $hurlexists=Test-RegistryValue "$RegBasePath\$hst" 'url'
@@ -315,30 +259,92 @@ function List-OnlineResources{
         if($hashexists -and $hurlexists){
             $Url=(Get-ItemProperty "$RegBasePath\$hst").url
             $Hash=(Get-ItemProperty "$RegBasePath\$hst").hash
-            $Updated=(Get-ItemProperty "$RegBasePath\$hst").updated
-            
+            $Updated=(Get-ItemProperty "$RegBasePath\$hst").last_update
+            $AddedOn=(Get-ItemProperty "$RegBasePath\$hst").added_on
             $res = [PSCustomObject]@{
+                Id          = "$i"
                 Name        = "$hst"
                 Url         = "$Url"
                 LastUpdate  = "$Updated"
+                AddedOn     = "$AddedOn"
                 Hash        = "$Hash"
             };
             $i++
-            $DbgStr = $res | ConvertTo-Json
-            Write-Host -f DarkRed "[res id $i]"
-            Write-Host "$DbgStr" -f DarkYellow
+            $Null=$CurrentList.Add($res)
         }
     }
+
+    $CurrentList | ft
    
 
   }catch{
       #Show-ExceptionDetails($_) -ShowStack
-      Write-Host -n -f DarkRed "[!] "
-      Write-Host "$_" -f DarkGray
+      
+      Write-MError "$_" 
   }
 }
 
-function New-OnlineResource{
+function New-WinHostResource{
+<#
+    .Synopsis
+       Update 
+#>
+    [CmdletBinding(SupportsShouldProcess)]
+    Param
+    (
+        [Parameter(Mandatory=$true,Position=0)]
+        [String]$Name,
+        [Parameter(Mandatory=$true,Position=1)]
+        [String]$Url
+    )
+
+    # throw errors on undefined variables
+    Set-StrictMode -Version 1
+
+    # stop immediately on error
+    $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
+
+  try {
+    $RegBasePath = "$ENV:OrganizationHKCU\Powershell.Module.WindowsHosts"
+    Write-MMsg "Validating $Url..." -h
+    # first try to get the file from the url
+    $TmpFilePath = (New-TemporaryFile).fullname
+    $WebClient = New-Object System.Net.WebClient
+    $WebClient.DownloadFile($Url,$TmpFilePath)
+    $Size = (Get-Item -Path $TmpFilePath).Length
+    if($Size -gt 0){
+        Write-MOk "file size $Size bytes" 
+        [DateTime]$CurrDate=(Get-Date)
+
+        #$FileHash=Get-FileHash $TmpFilePath
+        #$DateStr = CurrDate.GetDateTimeFormats()[12]
+
+        $FileHash='0'     # Bogus, placeholder hash until this res is used ro update the HOST
+        $CurrDate = $CurrDate.AddYears(-5)
+        $DateStr = $CurrDate.GetDateTimeFormats()[12] # Bogus, placeholder hash until this res is used ro update the HOST
+        
+        $null=New-Item -Path "$RegBasePath\$Name" -ItemType Directory -ErrorAction Ignore -Force
+        $null=New-RegistryValue "$RegBasePath\$Name" "url" "$Url" "string"
+        Write-MOk "powershell.module.windowshosts\$Name url $Url" 
+        $null=New-RegistryValue "$RegBasePath\$Name" "last_update" "never" "string"
+        Write-MOk "powershell.module.windowshosts\$Name last_update never" 
+        $null=New-RegistryValue "$RegBasePath\$Name" "hash" "$FileHash" "string"
+        Write-MOk "powershell.module.windowshosts\$Name hash $FileHash" 
+        $null=New-RegistryValue "$RegBasePath\$Name" "added_on" "$DateStr" "string"
+        Write-MOk "powershell.module.windowshosts\$Name added_on $DateStr" 
+        List-WinHostUrls
+    }else{
+        Write-MError "Invalid file"
+        return
+    }
+
+  }catch{
+      #Show-ExceptionDetails($_) -ShowStack
+      Write-MError "$_" 
+  }
+}
+
+function Remove-WinHostResource{
 <#
     .Synopsis
        Update 
@@ -354,39 +360,12 @@ function New-OnlineResource{
     $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
 
   try {
-        Write-Host -n -f DarkRed "[!] "
-      Write-Host "NOT IMPLEMENTED" -f DarkYellow
-
-  }catch{
-      #Show-ExceptionDetails($_) -ShowStack
-      Write-Host -n -f DarkRed "[!] "
-      Write-Host "$_" -f DarkGray
-  }
-}
-
-function Remove-OnlineResource{
-<#
-    .Synopsis
-       Update 
-#>
-    [CmdletBinding(SupportsShouldProcess)]
-    Param
-    ()
-
-    # throw errors on undefined variables
-    Set-StrictMode -Version 1
-
-    # stop immediately on error
-    $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
-
-  try {
    
         Write-Host -n -f DarkRed "[!] "
       Write-Host "NOT IMPLEMENTED" -f DarkYellow
   }catch{
       #Show-ExceptionDetails($_) -ShowStack
-      Write-Host -n -f DarkRed "[!] "
-      Write-Host "$_" -f DarkGray
+      Write-MError "$_" 
   }
 }
 
