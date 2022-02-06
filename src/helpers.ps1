@@ -3,128 +3,12 @@
   ║   PowerShell.Module.WindowsHosts
   ║   𝑊𝑖𝑛𝑑𝑜𝑤𝑠 𝐻𝑂𝑆𝑇𝑆 𝑓𝑖𝑙𝑒 𝑚𝑎𝑛𝑎𝑔𝑒𝑚𝑒𝑛𝑡              
   ║   
-  ║   online_host_url.ps1: Predefined Online Resources for Hosts
+  ║   helpers.ps1: Predefined Online Resources for Hosts
   ╙──────────────────────────────────────────────────────────────────────────────────────
  #>
 
 
  #Requires -Version 7.0
-
-
-#===============================================================================
-# ChannelProperties
-#===============================================================================
-
-class ChannelProperties
-{
-    #ChannelProperties
-    [string]$Channel = 'WindowsHosts'
-    [ConsoleColor]$TitleColor = 'Blue'
-    [ConsoleColor]$NormalTextColor = 'DarkGray'
-    [ConsoleColor]$InfoColor = 'DarkCyan'
-    [ConsoleColor]$WarnColor = 'DarkYellow'
-    [ConsoleColor]$ErrorColor = 'DarkRed'
-    [ConsoleColor]$SuccessColor = 'DarkGreen'
-    [ConsoleColor]$ErrorDescriptionColor = 'DarkYellow'
-}
-$Script:ChannelProps = [ChannelProperties]::new()
-
-
-function Write-MMsg{               # NOEXPORT   
-    [CmdletBinding(SupportsShouldProcess)]
-    param(
-        [Parameter(Mandatory=$true,Position=0)]
-        [string]$Message,
-        [Parameter(Mandatory=$false,Position=1)]
-        [Alias('h','y')]
-        [switch]$Highlight
-    )
-    if($Highlight){
-        Write-Host "⚡ $Message"
-    }else{
-        Write-Host "⚡ $Message" -f DarkGray
-    }
-}
-
-
-function Write-MOk{                        # NOEXPORT        
-    [CmdletBinding(SupportsShouldProcess)]
-    param(
-        [Parameter(Mandatory=$true,Position=0)]
-        [string]$Message,
-        [Parameter(Mandatory=$false,Position=1)]
-        [Alias('h','y')]
-        [switch]$Highlight
-    )
-    
-    if($Highlight){
-        Write-Host "✅ $Message"
-    }else{
-        Write-Host "✅ $Message" -f DarkGray
-    }
-}
-
-function Write-MWarn{                # NOEXPORT                 
-    [CmdletBinding(SupportsShouldProcess)]
-    param(
-        [Parameter(Mandatory=$true,Position=0)]
-        [string]$Message,
-        [Parameter(Mandatory=$false,Position=1)]
-        [Alias('h','y')]
-        [switch]$Highlight
-    )
-    if($Highlight){
-        Write-Host "❗ $Message" -f DarkYellow
-    }else{
-        Write-Host "❗ $Message" -f DarkGray
-    }
-    
-}
-
-function Write-MError{                # NOEXPORT                 
-    [CmdletBinding(SupportsShouldProcess)]
-    param(
-        [Parameter(Mandatory=$true,Position=0)]
-        [string]$Message,
-        [Parameter(Mandatory=$false,Position=1)]
-        [Alias('h','y')]
-        [switch]$Highlight
-    )
-    if($Highlight){
-        Write-Host "❗ $Message" -f DarkYellow
-    }else{
-        Write-Host "❗ $Message" -f DarkGray
-    }
-    
-}
-
-
-function Write-ProgressHelper {   ### NOEXPORT
-
-    param (
-    [Parameter(Mandatory=$True,Position=0)]
-        [int]$StepNumber,
-        [Parameter(Mandatory=$True,Position=1)]
-        [string]$Message
-    ) 
-    try{
-        Write-Progress -Activity $Script:ProgressTitle -Status $Message -PercentComplete (($StepNumber / $Script:Steps) * 100)
-    }catch{
-        Write-Host "❗ StepNumber $StepNumber" -f DarkYellow
-        Write-Host "❗ ScriptSteps $Script:Steps" -f DarkYellow
-        $val = (($StepNumber / $Script:Steps) * 100)
-        Write-Host "❗ PercentComplete $val" -f DarkYellow
-        Show-ExceptionDetails $_ -ShowStack
-    }
-}
-
-# ==================================
-# Get-HostsValues function
-# ==================================
-function Global:Get-HostsValuesInMemory{    
-  $Data=Get-Variable -Name HOSTSVALUES -Scope Global -ValueOnly -ErrorAction Ignore
-  return $Data
-}
 
 
 function Get-OnlineFile{   ### NOEXPORT
