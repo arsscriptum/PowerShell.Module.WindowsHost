@@ -83,9 +83,11 @@ function New-HostFile {  ### NOEXPORT
     $Script:AllEntries = [System.Collections.ArrayList]::new()
     $LastDomain = ''
     $Total = 0
+    $CountUi = 0
     ForEach($val in $HostValues){
       $Total++
-      if($Total -gt 8500){break;}
+      $CountUi++
+      if($CountUi -gt 10000){$CountUi = 0;Write-MMsg "So far 10K entries for $Total total!";}
         $IP = $val.IP
         $Hostname = $val.Hostname
         $HostnameLen = $Hostname.Length

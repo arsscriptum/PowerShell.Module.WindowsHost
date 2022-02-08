@@ -138,6 +138,20 @@ function Build-HostFileData{    ### NOEXPORT
     return $LocalHostsValues      
 }
 
+
+function Get-HostsValuesInMemory{
+<#
+    .Synopsis
+       Update 
+#>
+    [CmdletBinding(SupportsShouldProcess)]
+    Param
+    ()
+    $HostValues = Get-Variable -Name HOSTSVALUES -Scope Global -ValueOnly
+    return $HostValues
+}
+
+
 function Update-HostsValues{
 <#
     .Synopsis
@@ -146,10 +160,17 @@ function Update-HostsValues{
     [CmdletBinding(SupportsShouldProcess)]
     Param
     (
-        [Parameter(Mandatory=$true,Position=0)]
-        [String]$HostFilePath       
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true,HelpMessage="The output file path")]
+        [String]$Path,
+        [Parameter(Mandatory=$false, ValueFromPipeline=$true,HelpMessage="The ip address used for entries")]
+        [String]$OverrideIPAddress="0.0.0.0"
     )
 
+    if(Test-Path -PathType Leaf $Path){
+        $Null=Remove-Item -Path $Path -Force -ErrorAction Ignore
+    }
+    $Null=New-Item -Path $Path -Force -ErrorAction Ignore -ItemType File
+    $Null=Remove-Item -Path $Path -Force -ErrorAction Ignore
     # throw errors on undefined variables
     Set-StrictMode -Version 1
 
@@ -201,12 +222,8 @@ function Update-HostsValues{
                 Write-verbose "Copy $TmpFilePath to $TmpFileCopyPath"
                 Copy-Item $TmpFilePath $TmpFileCopyPath
                 Write-verbose "GO Build-HostFileData -Path $TmpFileCopyPath" 
-                $Data = Build-HostFileData -Path $TmpFileCopyPath -OverrideIPAddress "0.0.0.0"
-                $GlobalHostsValues += $Data
-                $GlobalHostsValuesCount = $GlobalHostsValues.Count
-                Set-Variable -Name HOSTSVALUES -Scope Global -Option allscope -Value $GlobalHostsValues
-                
-                Write-MOk "Updated Global Variable. $GlobalHostsValuesCount entries."        
+                $Data = Build-HostFileData -Path $TmpFileCopyPath -OverrideIPAddress $OverrideIPAddress
+                $GlobalHostsValues += $Data       
             }else{
                 Write-MOk "Nothing New from $Url" -h
                 continue
@@ -216,19 +233,22 @@ function Update-HostsValues{
             Sleep 1
         }
     }
-    if($ShouldUpdateFile){
-        $Script:stepCounter = 0
-        $Script:ProgressTitle = 'STATE: SORTING'
-        Write-ProgressHelper -Message "Sorting all entries..." -StepNumber ($Script:stepCounter++)
-        $GlobalHostsValues = ($GlobalHostsValues | Sort-Object -Property "SubDomain" -Descending -Unique)
-        Write-Progress -Activity $Script:ProgressTitle -Completed
+
+    $Script:stepCounter = 0
+    $Script:ProgressTitle = 'STATE: SORTING'
+    Write-ProgressHelper -Message "Sorting all entries..." -StepNumber ($Script:stepCounter++)
+    $GlobalHostsValues = ($GlobalHostsValues | Sort-Object -Property "SubDomain" -Descending -Unique)
+    Write-Progress -Activity $Script:ProgressTitle -Completed
        
-        Write-MMsg "Values are sorted, made unique."
-        Write-verbose "Starting to dump values to '$HostFilePath'"
-        New-HostFile $HostFilePath
-    }
+    Write-MMsg "Values are sorted, made unique."
+    Write-verbose "Starting to dump values to '$Path'"
 
+    $GlobalHostsValuesCount = $GlobalHostsValues.Count
+    Set-Variable -Name HOSTSVALUES -Scope Global -Option allscope -Value $GlobalHostsValues            
+    Write-MOk "Updated Global Variable. $GlobalHostsValuesCount entries."     
 
+    New-HostFile $Path
+    
   }catch{
         Show-ExceptionDetails $_ -ShowStack
         Write-MError "Fatal Error"
@@ -237,6 +257,7 @@ function Update-HostsValues{
       Write-MMsg "update completed"
   }
 }
+
 
 function List-WinHostUrls{
 <#
@@ -301,9 +322,9 @@ function New-WinHostResource{
     [CmdletBinding(SupportsShouldProcess)]
     Param
     (
-        [Parameter(Mandatory=$true,Position=0)]
+        [Parameter(Mandatory=$true,Position=0,ValueFromPipeline=$true,HelpMessage="The resource name")]
         [String]$Name,
-        [Parameter(Mandatory=$true,Position=1)]
+        [Parameter(Mandatory=$true,Position=1,ValueFromPipeline=$true,HelpMessage="Resource URL")]
         [String]$Url
     )
 
@@ -353,13 +374,17 @@ function New-WinHostResource{
 }
 
 function Remove-WinHostResource{
+
 <#
     .Synopsis
        Update 
 #>
     [CmdletBinding(SupportsShouldProcess)]
     Param
-    ()
+    (
+        [Parameter(Mandatory=$true,Position=0,ValueFromPipeline=$true,HelpMessage="The resource name")]
+        [String]$Name
+    )
 
     # throw errors on undefined variables
     Set-StrictMode -Version 1
@@ -368,10 +393,14 @@ function Remove-WinHostResource{
     $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
 
   try {
-    Write-Host -n -f DarkRed "[!] "
-    Write-Host "NOT IMPLEMENTED" -f DarkYellow
+    $RegBasePath = "$ENV:OrganizationHKCU\Powershell.Module.WindowsHosts"
+    
+    $null=Remove-Item -Path "$RegBasePath\$Name" -ErrorAction Ignore -Force -Recurse
+    Write-MOk "Removed: $Name" 
+    List-WinHostUrls
+
+
   }catch{
     Show-ExceptionDetails $_ -ShowStack
   }
 }
-
