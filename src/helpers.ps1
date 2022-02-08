@@ -92,7 +92,8 @@ function New-HostFile {  ### NOEXPORT
         [string]$Path
     )  
   try{    
-    $HostValues = Get-HostsValuesInMemory|Sort-Object -Property Domain,Hostname -Descending
+    $HostValues = Get-Variable -Name RAW_HOST_VALUES -Scope Global -ValueOnly
+    $HostValues = $HostValues |Sort-Object -Property Domain,Hostname -Descending
    
     $hostsLen = $HostValues.Count
     $Script:Steps= $HostValues.Count
@@ -102,7 +103,7 @@ function New-HostFile {  ### NOEXPORT
    
     
     Write-MMsg "Preparing $hostsLen entries." -h
-    $Script:AllEntries = [System.Collections.ArrayList]::new()
+    $AllEntries = [System.Collections.ArrayList]::new()
     $LastDomain = ''
     $Total = 0
     $CountUi = 0
@@ -131,28 +132,28 @@ function New-HostFile {  ### NOEXPORT
           $formatstring = "{0}`t`t{1}"
           $fields = $ip,$hostname  
           $entry=($formatstring -f $fields)
-          $null=$Script:AllEntries.Add($entry)
+          $null=$AllEntries.Add($entry)
         }else{
             if($Domain -ne $LastDomain){
                 $LastDomain=$Domain
                 $formatstring = "{0}`t`t{1}`t# {2}"
                 $fields = $ip,$hostname, $comment  
                 $entry=($formatstring -f $fields)
-                $null=$Script:AllEntries.Add($entry)
+                $null=$AllEntries.Add($entry)
             }else{
                 $formatstring = "{0}`t`t{1}`t# +"
                 $fields = $ip,$hostname
                 $entry=($formatstring -f $fields)
-                $null=$Script:AllEntries.Add($entry)
+                $null=$AllEntries.Add($entry)
             }
         }
   
         Write-ProgressHelper -Message "preparing entries... ($stepCounter / $Script:Steps)" -StepNumber ($stepCounter++)
     }
 
-    Set-Variable -Name HOSTS_ENTRIES -Scope Global -Option allscope -Value $Script:AllEntries
+    Set-Variable -Name PROCESSED_HOST_VALUES -Scope Global -Option allscope -Value $AllEntries
     
-    Write-MMsg "Updated Global Variable HOSTS_ENTRIES. Use 'Get-HostsValuesInMemory' to retrieve them in memory" -h  
+    Write-MMsg "Updated Global Variable PROCESSED_HOST_VALUES. Use 'Get-HostsValuesInMemory' to retrieve them in memory" -h  
  
     Write-Progress -Activity $Script:ProgressTitle -Completed
     
@@ -168,7 +169,7 @@ function New-HostFile {  ### NOEXPORT
     Write-MMsg "Writing Local Host Entries..."
     Add-Content -Path $Path -Value $cet -ErrorAction Stop
     Write-MMsg "Custom Entries..."
-    Add-Content -Path $Path -Value $Script:AllEntries -ErrorAction Stop
+    Add-Content -Path $Path -Value $AllEntries -ErrorAction Stop
     Write-MMsg "Online Entries..."
     Add-Content -Path $Path -Value $ack -ErrorAction Stop
     Write-MMsg "Acknowledgements..."

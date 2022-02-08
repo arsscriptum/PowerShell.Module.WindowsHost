@@ -137,6 +137,17 @@ function Build-HostFileData{    ### NOEXPORT
 
     return $LocalHostsValues      
 }
+function Get-RawHostsValuesInMemory{
+<#
+    .Synopsis
+       Update 
+#>
+    [CmdletBinding(SupportsShouldProcess)]
+    Param
+    ()
+    $HostValues = Get-Variable -Name RAW_HOST_VALUES -Scope Global -ValueOnly
+    return $HostValues
+}
 
 
 function Get-HostsValuesInMemory{
@@ -147,7 +158,7 @@ function Get-HostsValuesInMemory{
     [CmdletBinding(SupportsShouldProcess)]
     Param
     ()
-    $HostValues = Get-Variable -Name HOSTSVALUES -Scope Global -ValueOnly
+    $HostValues = Get-Variable -Name PROCESSED_HOST_VALUES -Scope Global -ValueOnly
     return $HostValues
 }
 
@@ -244,7 +255,7 @@ function Update-HostsValues{
     Write-verbose "Starting to dump values to '$Path'"
 
     $GlobalHostsValuesCount = $GlobalHostsValues.Count
-    Set-Variable -Name HOSTSVALUES -Scope Global -Option allscope -Value $GlobalHostsValues            
+    Set-Variable -Name RAW_HOST_VALUES -Scope Global -Option allscope -Value $GlobalHostsValues            
     Write-MOk "Updated Global Variable. $GlobalHostsValuesCount entries."     
 
     New-HostFile $Path
