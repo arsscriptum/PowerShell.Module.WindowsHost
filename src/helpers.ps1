@@ -61,6 +61,28 @@ function Get-OnlineFile{   ### NOEXPORT
   return $true
 }
 
+    
+function Invoke-WriteHostFileFromMemory {  
+    [CmdletBinding(SupportsShouldProcess)]
+    Param
+    (
+        [Parameter(Mandatory=$True,Position=0)]
+        [string]$Path
+    ) 
+    $lcl = Get-LocalHostEntries
+    $cet = Get-CustomEntries
+    $ack = Get-Acknowledgements
+    $AllEntries = Get-HostsValuesInMemory
+    Set-Content -Path $Path -Value $lcl -ErrorAction Stop
+    Write-MMsg "Writing Local Host Entries..."
+    Add-Content -Path $Path -Value $cet -ErrorAction Stop
+    Write-MMsg "Custom Entries..."
+    Add-Content -Path $Path -Value $AllEntries -ErrorAction Stop
+    Write-MMsg "Online Entries..."
+    Add-Content -Path $Path -Value $ack -ErrorAction Stop
+    Write-MMsg "Acknowledgements..."
+    Write-MOk "Done"
+}
 
 function New-HostFile {  ### NOEXPORT
     [CmdletBinding(SupportsShouldProcess)]
