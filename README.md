@@ -2,7 +2,7 @@
 
 PowerShell Module providing easy management of the Windows Hosts file.
 
-[VIEW DEMO](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/raw/master/doc/update.gif)
+[VIEW DEMO](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/update.gif)
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents <!-- omit in toc -->
