@@ -40,6 +40,11 @@
             $FileUrls.Add('https://raw.githubusercontent.com/arsscriptum/PowerShell.Module.WindowsHost/master/tests/test_01.txt')
             #$FileUrls.Add('https://raw.githubusercontent.com/arsscriptum/PowerShell.Module.WindowsHost/master/tests/test_02.txt')
         }else{
+            $FileUrls.Add('https://gitlab.com/The_Quantum_Alpha/the-quantum-ad-list/-/blob/master/Individual lists/The_Quantum_Abuse-List.txt')
+            $FileUrls.Add('https://gitlab.com/The_Quantum_Alpha/the-quantum-ad-list/-/blob/master/Individual lists/The_Quantum_Fakesites.txt')
+            $FileUrls.Add('https://gitlab.com/The_Quantum_Alpha/the-quantum-ad-list/-/blob/master/Individual lists/The_Quantum_Privacy-list.txt')
+            $FileUrls.Add('https://gitlab.com/The_Quantum_Alpha/the-quantum-ad-list/-/blob/master/Individual lists/The_Quantum_Simply-ads-list.txt')
+            $FileUrls.Add('https://gitlab.com/The_Quantum_Alpha/the-quantum-ad-list/-/blob/master/Individual lists/The_Quantum_Youtube-Ads-List.txt')
             $FileUrls.Add('https://someonewhocares.org/hosts/hosts')
             $FileUrls.Add('https://ewpratten.retrylife.ca/youtube_ad_blocklist/hosts.ipv4.txt')
             $FileUrls.Add('https://gist.githubusercontent.com/anilshanbhag/7576643/raw/1a2b22edbfb609366548982a3638ba155bd8c33e/hosts')
