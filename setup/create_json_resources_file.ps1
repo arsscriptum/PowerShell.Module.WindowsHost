@@ -40,6 +40,7 @@
             $FileUrls.Add('https://raw.githubusercontent.com/arsscriptum/PowerShell.Module.WindowsHost/master/tests/test_01.txt')
             #$FileUrls.Add('https://raw.githubusercontent.com/arsscriptum/PowerShell.Module.WindowsHost/master/tests/test_02.txt')
         }else{
+            $FileUrls.Add('https://adaway.org/hosts.txt')
             $FileUrls.Add('https://gitlab.com/The_Quantum_Alpha/the-quantum-ad-list/-/blob/master/Individual lists/The_Quantum_Abuse-List.txt')
             $FileUrls.Add('https://gitlab.com/The_Quantum_Alpha/the-quantum-ad-list/-/blob/master/Individual lists/The_Quantum_Fakesites.txt')
             $FileUrls.Add('https://gitlab.com/The_Quantum_Alpha/the-quantum-ad-list/-/blob/master/Individual lists/The_Quantum_Privacy-list.txt')
