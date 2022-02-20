@@ -43,7 +43,10 @@ function Get-OnlineFile{   ### NOEXPORT
        $dlkb = $([System.Math]::Floor($downloadedBytes/1024))
        $msg = "Downloaded $dlkb Kb of $totalLength Kb"
        $perc = (($downloadedBytes / $totalLengthBytes)*100)
-       Write-Progress -Activity $Script:ProgressTitle -Status $msg -PercentComplete $perc
+       if(($perc -gt 0)-And($perc -lt 100)){
+         Write-Progress -Activity $Script:ProgressTitle -Status $msg -PercentComplete $perc 
+       }
+       
     }
 
     $targetStream.Flush()

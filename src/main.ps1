@@ -68,6 +68,7 @@ function Build-HostFileData{    ### NOEXPORT
         $Script:stepCounter = 0
         #define a regex to return first NON-whitespace character
         [regex]$r="\S"
+
         #strip out any lines beginning with # and blank lines
         if ($HostsData){
           #only process if something was found in HOSTS
@@ -76,6 +77,11 @@ function Build-HostFileData{    ### NOEXPORT
             if( (($r.Match($_)).value -ne "#") -and ($_ -notmatch "^\s+$") -and ($_.Length -gt 0) ){
             # named values
              $_ -match "(?<IP>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+(?<HOSTNAME>\S+)" | Out-Null
+                if($matches -eq $Null){
+                    Write-Host -n -f DarkRed "[!] " 
+                    Write-Host "NO MATCHES in $Path" -ForegroundColor DarkGray
+                    return;
+                }
                   $ip=$matches.ip
                   $hostname=$matches.hostname  
                           
@@ -216,7 +222,7 @@ function Update-HostsValues{
             $Downloaded = Get-OnlineFile $Url $TmpFilePath
             if($Downloaded -eq $False){
                 Write-MError "Download Error ($Url)"
-                return
+                continue
             }
             $DownloadedHash=(Get-FileHash $TmpFilePath).Hash
 
@@ -231,7 +237,11 @@ function Update-HostsValues{
                 Write-verbose "powershell.module.windowshosts\$hst hash $DownloadedHash" 
                 $TmpFileCopyPath = $TmpFilePath + '.copy'
                 Write-verbose "Copy $TmpFilePath to $TmpFileCopyPath"
+
                 Copy-Item $TmpFilePath $TmpFileCopyPath
+                $Fcnt = Get-Content -Path $TmpFileCopyPath
+                $Fcnt = $Fcnt -replace '0.0.0.0','127.0.0.1'
+                Set-Content -Path $TmpFileCopyPath -Value $Fcnt
                 Write-verbose "GO Build-HostFileData -Path $TmpFileCopyPath" 
                 $Data = Build-HostFileData -Path $TmpFileCopyPath -OverrideIPAddress $OverrideIPAddress
                 $GlobalHostsValues += $Data       
