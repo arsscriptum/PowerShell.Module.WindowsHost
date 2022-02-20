@@ -41,6 +41,7 @@
             #$FileUrls.Add('https://raw.githubusercontent.com/arsscriptum/PowerShell.Module.WindowsHost/master/tests/test_02.txt')
         }else{
             $FileUrls.Add('https://someonewhocares.org/hosts/hosts')
+            $FileUrls.Add('https://ewpratten.retrylife.ca/youtube_ad_blocklist/hosts.ipv4.txt')
             $FileUrls.Add('https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt')
             $FileUrls.Add('https://raw.githubusercontent.com/anudeepND/blacklist/master/facebook.txt')
             $FileUrls.Add('https://raw.githubusercontent.com/arsscriptum/PowerShell.Module.WindowsHost/master/blacklist/blacklisted_adservers.txt')
