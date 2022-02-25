@@ -16,7 +16,27 @@ PowerShell Module providing easy management of the Windows Hosts file.
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Screenshot][product-screenshot]](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/doc/screenshot.png)
+Using the system's HOST file is an easy and effective way to 
+- disable annoying ads
+- protect you from many types of spyware
+- reduces bandwidth use, blocks certain pop-up traps
+- prevents user tracking by way of "web bugs" embedded in spam
+- provides partial protection from certain web-based exploits
+- blocks most advertising you would otherwise be subjected to on the internet
+
+The host values are changing often and are provided by different reliable sources.
+
+In order to facilitate the creation of an updated HOST file this module handles the following:
+- Management (Adding, removing) of online HOST resources 
+- Get HOST file information (Get-HostFileDirectory, Get-HostFilePath)
+- Generation of HOST file
+  - Downloading from web resource
+  - Merge all downloaded entries
+  - Remove duplicates, sort and add comments
+
+
+[Product](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/doc/ModTitle-WINHOST.png)
+
 
 ### Built With [Arsscriptum PowerShell Module Builder](https://github.com/arsscriptum/PowerShell.Module.Builder)
 
