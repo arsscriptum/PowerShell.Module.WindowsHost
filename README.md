@@ -83,17 +83,17 @@ popd
 <!-- doc -->
 ## Documentation
 
--Check-WinHostModuleInitStatus (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Check-WinHostModuleInitStatus.md)
--Get-HostFileDirectory (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Get-HostFileDirectory.md)
--Get-HostFilePath (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Get-HostFilePath.md)
--Get-HostsValuesInMemory (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Get-HostsValuesInMemory.md)
--Get-RawHostsValuesInMemory (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Get-RawHostsValuesInMemory.md)
--Initialize-WinHostModule (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Initialize-WinHostModule.md)
--Invoke-WriteHostFileFromMemory (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Invoke-WriteHostFileFromMemory.md)
--List-WinHostUrls (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/List-WinHostUrls.md)
--New-WinHostResource (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/New-WinHostResource.md)
--Remove-WinHostResource (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Remove-WinHostResource.md)
--Update-HostsValues. (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Update-HostsValues.md)
+-[Check-WinHostModuleInitStatus](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Check-WinHostModuleInitStatus.md)
+-[Get-HostFileDirectory](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Get-HostFileDirectory.md)
+-[Get-HostFilePath](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Get-HostFilePath.md)
+-[Get-HostsValuesInMemory](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Get-HostsValuesInMemory.md)
+-[Get-RawHostsValuesInMemory](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Get-RawHostsValuesInMemory.md)
+-[Initialize-WinHostModule](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Initialize-WinHostModule.md)
+-[Invoke-WriteHostFileFromMemory](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Invoke-WriteHostFileFromMemory.md)
+-[List-WinHostUrls](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/List-WinHostUrls.md)
+-[New-WinHostResource](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/New-WinHostResource.md)
+-[Remove-WinHostResource](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Remove-WinHostResource.md)
+-[Update-HostsValues](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Update-HostsValues.md)
 
 
 <!-- ACKNOWLEDGEMENTS -->
