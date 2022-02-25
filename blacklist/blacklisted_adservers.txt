@@ -6,6 +6,14 @@
 0.0.0.0     deployads.net
 0.0.0.0     deployads.com
 
+0.0.0.0		DESKTOP-69ATDDL
+0.0.0.0     a23-194-190-104.deploy.static.akamaitechnologies.com
+0.0.0.0     a23-44-133-12.deploy.static.akamaitechnologies.com
+0.0.0.0     a-0001.a-msedge.net
+0.0.0.0     a-0002.a-msedge.net
+0.0.0.0     a-0001.a-msedge.net
+
+
 0.0.0.0     manifest.googlevideo.com
 0.0.0.0     r8.sn-4g5ednzz.googlevideo.com
 0.0.0.0     r8---sn-4g5ednzz.googlevideo.com
