@@ -34,8 +34,10 @@ In order to facilitate the creation of an updated HOST file this module handles 
   - Merge all downloaded entries
   - Remove duplicates, sort and add comments
 
+<p align="center">
+  <img src="https://github.com/arsscriptum/PowerShell.Module.WindowsHost/raw/master/doc/ModTitle-WINHOST.png" width="350" alt="PowerShell Module">
+</p>
 
-[Product](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/doc/ModTitle-WINHOST.png)
 
 
 ### Built With [Arsscriptum PowerShell Module Builder](https://github.com/arsscriptum/PowerShell.Module.Builder)
