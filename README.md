@@ -18,9 +18,7 @@ PowerShell Module providing easy management of the Windows Hosts file.
 
 [![Product Screenshot][product-screenshot]](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/doc/screenshot.png)
 
-### Built With
-
-* [Arsscriptum PowerShell Module Builder]](https://github.com/arsscriptum/PowerShell.Module.Builder)
+### Built With [Arsscriptum PowerShell Module Builder](https://github.com/arsscriptum/PowerShell.Module.Builder)
 
 <!-- GETTING STARTED -->
 ## Getting Started, compile
@@ -39,12 +37,27 @@ popd
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-### Update Online Resources
+### Initialize Module with list of online resources. [VIEW DEMO](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Init.gif)
+```
+     .\setup\create_json_resources_file.ps1
+     $JsonFile="C:\DOCUMENTS\PowerShell\Module-Development\PowerShell.Module.WindowsHost\res\online_resources.json"
+     Initialize-WinHostModule $JsonFile -Force    
+```
 ### List Online Resources
-### Add / Remove Online Resources
-### Write Hosts File
+```
+     List-WinHostUrls
+```
+
+### Write Hosts File [VIEW DEMO](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Gen.gif)
+```
+    Update-HostsValues -Path ./new-host.txt -OverrideIPAddress "0.0.0.0"
+```
+
+
+
 
 <!-- ACKNOWLEDGEMENTS -->
+
 ## Acknowledgements
 
 * [Dan Pollock. He has a very good black list](http://someonewhocares.org/hosts/)
@@ -54,15 +67,7 @@ popd
 
 
 
-## Tasks List
--------------
-龱 Install
-龱 
-龱 
-
-
 Repository
 ----------
-
 https://github.com/arsscriptum/PowerShell.Module.WindowsHost/
 
