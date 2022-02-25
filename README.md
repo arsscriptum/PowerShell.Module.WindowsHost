@@ -1,13 +1,16 @@
 # PowerShell.Module.WindowsHost
+
 <p align="center">
   <img src="https://github.com/arsscriptum/PowerShell.Module.WindowsHost/raw/master/doc/ModTitle-WINHOST.png" width="550" alt="PowerShell Module">
 </p>
+
+
 PowerShell Module providing easy management of the Windows Hosts file.
 
-[VIEW DEMO](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/update.gif)
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents <!-- omit in toc -->
+
 
 * [About The Project](#about-the-project)
   * [Built With](#built-with)
@@ -15,8 +18,10 @@ PowerShell Module providing easy management of the Windows Hosts file.
 * [Usage](#usage)
 * [Acknowledgements](#acknowledgements)
 
+
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+
 
 Using the system's HOST file is an easy and effective way to 
 - disable annoying ads
@@ -35,7 +40,6 @@ In order to facilitate the creation of an updated HOST file this module handles 
   - Downloading from web resource
   - Merge all downloaded entries
   - Remove duplicates, sort and add comments
-
 
 
 
@@ -74,8 +78,6 @@ popd
 ```
     Update-HostsValues -Path ./new-host.txt -OverrideIPAddress "0.0.0.0"
 ```
-
-
 
 
 <!-- ACKNOWLEDGEMENTS -->
