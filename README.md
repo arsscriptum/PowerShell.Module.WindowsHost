@@ -1,5 +1,7 @@
 # PowerShell.Module.WindowsHost
-
+<p align="center">
+  <img src="https://github.com/arsscriptum/PowerShell.Module.WindowsHost/raw/master/doc/ModTitle-WINHOST.png" width="550" alt="PowerShell Module">
+</p>
 PowerShell Module providing easy management of the Windows Hosts file.
 
 [VIEW DEMO](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/update.gif)
@@ -34,9 +36,7 @@ In order to facilitate the creation of an updated HOST file this module handles 
   - Merge all downloaded entries
   - Remove duplicates, sort and add comments
 
-<p align="center">
-  <img src="https://github.com/arsscriptum/PowerShell.Module.WindowsHost/raw/master/doc/ModTitle-WINHOST.png" width="350" alt="PowerShell Module">
-</p>
+
 
 
 
