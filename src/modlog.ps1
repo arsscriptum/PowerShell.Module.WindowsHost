@@ -21,6 +21,7 @@ class ChannelProperties
     [string]$Channel = 'WinHost'
     [ConsoleColor]$TitleColor = 'Blue'
     [ConsoleColor]$NormalTextColor = 'DarkGray'
+    [ConsoleColor]$MessageColor = 'DarkCyan'
     [ConsoleColor]$InfoColor = 'DarkCyan'
     [ConsoleColor]$WarnColor = 'DarkYellow'
     [ConsoleColor]$ErrorColor = 'DarkRed'

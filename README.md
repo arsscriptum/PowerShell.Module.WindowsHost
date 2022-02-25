@@ -16,6 +16,7 @@ PowerShell Module providing easy management of the Windows Hosts file.
   * [Built With](#built-with)
 * [Getting Started](#getting-started)
 * [Usage](#usage)
+* [Documentation](#doc)
 * [Acknowledgements](#acknowledgements)
 
 
@@ -78,6 +79,21 @@ popd
 ```
     Update-HostsValues -Path ./new-host.txt -OverrideIPAddress "0.0.0.0"
 ```
+
+<!-- doc -->
+## Documentation
+
+-Check-WinHostModuleInitStatus (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Check-WinHostModuleInitStatus.md)
+-Get-HostFileDirectory (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Get-HostFileDirectory.md)
+-Get-HostFilePath (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Get-HostFilePath.md)
+-Get-HostsValuesInMemory (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Get-HostsValuesInMemory.md)
+-Get-RawHostsValuesInMemory (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Get-RawHostsValuesInMemory.md)
+-Initialize-WinHostModule (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Initialize-WinHostModule.md)
+-Invoke-WriteHostFileFromMemory (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Invoke-WriteHostFileFromMemory.md)
+-List-WinHostUrls (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/List-WinHostUrls.md)
+-New-WinHostResource (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/New-WinHostResource.md)
+-Remove-WinHostResource (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Remove-WinHostResource.md)
+-Update-HostsValues. (https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Update-HostsValues.md)
 
 
 <!-- ACKNOWLEDGEMENTS -->
