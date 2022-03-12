@@ -75,7 +75,7 @@ popd
      List-WinHostUrls
 ```
 
-### Write Hosts File [VIEW DEMO](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Gen.gif)
+### Write Hosts File [VIEW DEMO](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/gen1.gif)
 ```
     Update-HostsValues -Path ./new-host.txt -OverrideIPAddress "0.0.0.0"
 ```
