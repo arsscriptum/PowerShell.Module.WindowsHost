@@ -19,7 +19,7 @@ class ChannelProperties
 {
     #ChannelProperties
     [string]$Channel = 'WinHost'
-    [ConsoleColor]$TitleColor = 'Blue'
+    [ConsoleColor]$TitleColor = (Get-RandomColor)
     [ConsoleColor]$NormalTextColor = 'DarkGray'
     [ConsoleColor]$MessageColor = 'DarkCyan'
     [ConsoleColor]$InfoColor = 'DarkCyan'
