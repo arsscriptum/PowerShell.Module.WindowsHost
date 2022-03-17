@@ -96,6 +96,16 @@ popd
 - [Update-HostsValues](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/Update-HostsValues.md)
 
 
+
+## DEMO
+
+
+<p align="center">
+  <img src="https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/gen1.gif?raw=true" width="600" alt="PowerShell Module">
+</p>
+
+
+
 <!-- ACKNOWLEDGEMENTS -->
 
 ## Acknowledgements
@@ -105,9 +115,6 @@ popd
 * [https://hosts.ubuntu101.co.za](https://hosts.ubuntu101.co.za)
 * [More Acknowledgements](https://github.com/arsscriptum/PowerShell.Module.WindowsHost/doc/acknowledgements.md)
 
-<p align="center">
-  <img src="https://github.com/arsscriptum/PowerShell.Module.WindowsHost/blob/master/doc/gen1.gif?raw=true" width="600" alt="PowerShell Module">
-</p>
 
 
 Repository
